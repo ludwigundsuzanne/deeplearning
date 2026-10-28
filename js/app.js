@@ -999,6 +999,10 @@
   }
 
   /* ---------- Exports ---------- */
+  /* Dans la visionneuse claude.ai, les téléchargements passent par la capacité « downloads ». */
+  const inClaudeViewer = !!(window.claude && typeof window.claude.use === "function");
+  let claudeDownloads = null;
+  if (inClaudeViewer) window.claude.use("downloads").then((d) => { claudeDownloads = d; }).catch(() => { /* indisponible */ });
   function offerFile(filename, mime, text, title) {
     let url = null;
     try { url = URL.createObjectURL(new Blob([text], { type: mime })); } catch (e) { /* ignore */ }
@@ -1006,7 +1010,7 @@
       <p class="small muted" style="margin:0">Fichier : <b>${esc(filename)}</b>. Si le téléchargement ne démarre pas, copiez le contenu et collez-le dans un fichier texte.</p>
       <textarea class="code-out" readonly aria-label="Contenu du fichier">${esc(text.length > 200000 ? text.slice(0, 200000) + "\n…" : text)}</textarea>
       <div class="row end"><button class="btn ghost" data-act="dlg-close">Fermer</button><button class="btn" data-act="copy-out">${ICON.copy}Copier</button>
-      ${url ? `<a class="btn primary" href="${url}" download="${esc(filename)}" data-act="downloaded">${ICON.download}Télécharger</a>` : ""}</div>`, { copyText: text });
+      ${claudeDownloads ? `<button class="btn primary" data-act="claude-save">${ICON.download}Télécharger</button>` : url && !inClaudeViewer ? `<a class="btn primary" href="${url}" download="${esc(filename)}" data-act="downloaded">${ICON.download}Télécharger</a>` : ""}</div>`, { copyText: text, filename });
   }
   function exportJSON() {
     state.lastBackup = new Date().toISOString(); save(true);
@@ -1315,6 +1319,13 @@
       const text = dlgHandlers.copyText || "";
       const fallback = () => { const ta = document.querySelector("#dlg .code-out"); if (ta) { ta.focus(); ta.select(); } toast("Texte sélectionné : copiez-le avec Ctrl+C ou Cmd+C."); };
       try { navigator.clipboard.writeText(text).then(() => toast("Copié."), fallback); } catch (e) { fallback(); }
+    },
+    "claude-save": () => {
+      const h = dlgHandlers;
+      claudeDownloads.save({ filename: h.filename, data: h.copyText }).then(() => toast("Fichier enregistré."), (e) => {
+        if (e && e.code === "declined") return;
+        toast(e && e.code === "rate_limited" ? "Une demande est déjà ouverte." : "Téléchargement indisponible ici : utilisez « Copier ».");
+      });
     },
     "downloaded": () => { setTimeout(() => toast("Téléchargement lancé."), 50); }
   };
