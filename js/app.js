@@ -48,8 +48,6 @@
     return html;
   }
 
-  const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX"];
-  const roman = (n) => ROMAN[n - 1] || String(n);
   const QUOTES = [
     ["Une vie sans examen ne vaut pas d'être vécue.", "Socrate, selon Platon", "Apologie de Socrate, 38a"],
     ["Chacun appelle barbarie ce qui n'est pas de son usage.", "Montaigne", "Essais, I, 31, « Des cannibales »"],
@@ -97,6 +95,7 @@
     upload: I('<path d="M12 21V9M7 14l5-5 5 5M5 3h14"/>'),
     copy: I('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>'),
     close: I('<path d="M6 6l12 12M18 6L6 18"/>'),
+    search: I('<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>'),
     book: I('<path d="M4 4h5a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-5a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h6z"/>')
   };
   const LOGO = '<svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16 16m-2 0a2 2 0 1 0 4 0a4 4 0 1 0-8 0a6 6 0 1 0 12 0a8 8 0 1 0-16 0a10 10 0 0 0 10 10" fill="none" stroke="var(--lapis)" stroke-width="1.8" stroke-linecap="round"/></svg>';
@@ -312,14 +311,60 @@
       ["syntheses", "Synthèses", ICON.synth],
       ["reglages", "Données et réglages", ICON.settings]
     ];
-    const cur = r === "seance" ? "aujourdhui" : r;
+    const cur = r;
     const rail = items.map(([id, label, ic, n]) =>
       `<a class="nav-item" href="#${id}" ${cur === id ? 'aria-current="page"' : ""}>${ic}<span>${label}</span>${n ? `<span class="count" aria-label="${n} à revoir">${n}</span>` : ""}</a>`).join("");
     const tabs = [items[0], items[1], items[2], items[3], ["plus", "Plus", ICON.more]];
     const plusCur = ["bibliotheque", "liens", "syntheses", "reglages", "plus"].includes(cur);
+    const tabCur = cur === "seance" ? "parcours" : cur;
     const tabbar = tabs.map(([id, label, ic, n]) =>
-      `<a href="#${id}" ${(id === "plus" ? plusCur : cur === id) ? 'aria-current="page"' : ""}>${ic}<span>${label}</span>${n ? `<span class="dot">${n > 99 ? "99+" : n}</span>` : ""}</a>`).join("");
+      `<a href="#${id}" ${(id === "plus" ? plusCur : tabCur === id) ? 'aria-current="page"' : ""}>${ic}<span>${label}</span>${n ? `<span class="dot">${n > 99 ? "99+" : n}</span>` : ""}</a>`).join("");
     return { rail, tabbar };
+  }
+
+  /* Arborescence du parcours dans la barre latérale : mois > semaines > séances. */
+  function treeHtml(r) {
+    const n = nextSession();
+    const open = state.ui.tree || {};
+    const curSid = r === "seance" ? state.ui.sessionId : null;
+    const curF = curSid && findSession(curSid);
+    const focus = curF || n;
+    return state.months.map((m, mi) => {
+      const st = monthStats(m);
+      const mOpen = open[m.id] != null ? open[m.id] : !!(focus && focus.m.id === m.id);
+      const weeks = !mOpen ? "" : `<ul>${m.weeks.map((w, wi) => {
+        const wk = m.id + ":" + wi;
+        const wOpen = open[wk] != null ? open[wk] : !!(focus && focus.m.id === m.id && focus.wi === wi);
+        const sess = !wOpen ? "" : `<ul>${w.sessions.map((s) => {
+          const p = prog(s.id);
+          const isCur = curSid === s.id;
+          return `<li><a href="#seance" class="tree-row lvl3 ${isCur ? "cur" : ""}" data-act="open-session" data-id="${s.id}" ${isCur ? 'aria-current="page"' : ""}><span class="st ${p ? p.status : ""}" aria-hidden="true"></span><span class="tl">${esc(s.title)}</span>${p ? `<span class="sr-only">${p.status === "done" ? " (faite)" : " (commencée)"}</span>` : ""}</a></li>`;
+        }).join("")}</ul>`;
+        return `<li><div class="tree-row lvl2"><button class="tw" data-act="tree-toggle" data-id="${wk}" aria-expanded="${wOpen}" aria-label="${wOpen ? "Replier" : "Déplier"} la semaine ${wi + 1}">${ICON.next}</button><button class="tl" data-act="tree-toggle" data-id="${wk}" aria-expanded="${wOpen}">Semaine ${wi + 1}</button></div>${sess}</li>`;
+      }).join("")}</ul>`;
+      const isCurM = r === "parcours" && state.ui.monthId === m.id;
+      return `<li><div class="tree-row lvl1 ${isCurM ? "cur" : ""}"><button class="tw" data-act="tree-toggle" data-id="${m.id}" aria-expanded="${mOpen}" aria-label="${mOpen ? "Replier" : "Déplier"} le mois ${mi + 1}">${ICON.next}</button><a href="#parcours" class="tl" data-act="pick-month" data-id="${m.id}">${mi + 1}. ${esc(m.title)}</a><span class="tc num" aria-label="${st.done} séances faites sur ${st.total}">${st.done}/${st.total}</span></div>${weeks}</li>`;
+    }).join("");
+  }
+
+  /* Fil d'Ariane de navigation en haut de chaque page. */
+  function crumbsHtml(r) {
+    const label = { aujourdhui: "Aujourd'hui", parcours: "Parcours", reviser: "Réviser", carnet: "Carnet", bibliotheque: "Bibliothèque", liens: "Liens", syntheses: "Synthèses", reglages: "Données et réglages", plus: "Plus" };
+    let parts = [];
+    if (r === "seance") {
+      const f = state.ui.sessionId && findSession(state.ui.sessionId);
+      parts = f ? [["Parcours", "parcours"], [`${f.mi + 1}. ${f.m.title}`, "month:" + f.m.id], [`Semaine ${f.wi + 1}`, "month:" + f.m.id], [f.s.title]] : [["Séance"]];
+    } else if (r === "parcours") {
+      const m = state.months.find((x) => x.id === state.ui.monthId) || currentMonth();
+      parts = [["Parcours", "parcours"], [`${state.months.indexOf(m) + 1}. ${m.title}`]];
+    } else if (r === "carnet") parts = [["Carnet", "carnet"], [(state.ui.carnetTab || "notes") === "notions" ? "Notions" : "Notes"]];
+    else parts = [[label[r]]];
+    return parts.map(([t, to], i) => {
+      const last = i === parts.length - 1;
+      const inner = last || !to ? `<span ${last ? 'aria-current="page"' : ""}>${esc(t)}</span>`
+        : to.startsWith("month:") ? `<a href="#parcours" data-act="pick-month" data-id="${to.slice(6)}">${esc(t)}</a>` : `<a href="#${to}">${esc(t)}</a>`;
+      return `<li>${inner}</li>`;
+    }).join("");
   }
 
   let lastRoute = null;
@@ -334,20 +379,34 @@
       console.error(e);
       body = `<div class="narrow empty"><strong>Cet écran n'a pas pu s'afficher.</strong>${esc(e.message)}<br><a href="#aujourdhui">Revenir à l'accueil</a></div>`;
     }
+    const treeEl = document.querySelector(".side-scroll");
+    const treeY = treeEl ? treeEl.scrollTop : 0;
+    const n = nextSession();
+    const np = n && prog(n.s.id);
     root.innerHTML = `
       <div class="app">
         <nav class="rail" aria-label="Navigation principale">
           <div class="brand">${LOGO}<span>Fil d'Ariane</span></div>
-          ${nav.rail}
-          <div class="spacer"></div>
-          <p class="motto"><b>Scripta manent.</b> Ce que l'on écrit demeure.</p>
-          <div class="foot">${storageOk ? "Données enregistrées dans ce navigateur" : "Stockage indisponible : exportez vos données"}</div>
+          <button class="side-search" data-act="open-search">${ICON.search}<span>Rechercher</span><kbd>${/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘" : "Ctrl"} K</kbd></button>
+          ${n ? `<a class="side-today" href="#seance" data-act="open-session" data-id="${n.s.id}">${ICON.play}<span><small>${np && np.status === "started" ? "Reprendre la séance" : "Séance du jour"}</small><b>${esc(n.s.title)}</b></span></a>` : ""}
+          <div class="side-nav">${nav.rail}</div>
+          <div class="side-scroll">
+            <div class="side-label">Parcours</div>
+            <ul class="tree">${treeHtml(r)}</ul>
+          </div>
+          <div class="foot">${storageOk ? "Enregistré dans ce navigateur" : "Stockage indisponible : exportez vos données"}</div>
         </nav>
-        <main id="main" tabindex="-1">${body}</main>
+        <main id="main" tabindex="-1">
+          <div class="topbar"><nav aria-label="Fil d'Ariane"><ol class="crumbs">${crumbsHtml(r)}</ol></nav>
+            <button class="icon-btn topbar-search" data-act="open-search" aria-label="Rechercher">${ICON.search}</button></div>
+          ${body}
+        </main>
         <nav class="tabbar" aria-label="Navigation">${nav.tabbar}</nav>
       </div>
       <dialog id="dlg" aria-labelledby="dlg-title"></dialog>
       <div id="toast-zone" aria-live="polite"></div>`;
+    const treeEl2 = document.querySelector(".side-scroll");
+    if (treeEl2) treeEl2.scrollTop = treeY;
     if (r !== lastRoute) { window.scrollTo(0, 0); lastRoute = r; }
     afterRender(r);
   }
@@ -371,18 +430,75 @@
   let dlgHandlers = {};
   function openDialog(html, handlers) {
     const d = document.getElementById("dlg");
+    d.classList.remove("dlg-search");
     d.innerHTML = `<div class="dialog-body">${html}</div>`;
     dlgHandlers = handlers || {};
     if (!d.open) { try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } }
     const f = d.querySelector("[autofocus], input, textarea, select, button.primary");
     if (f) f.focus();
   }
-  function closeDialog() { const d = document.getElementById("dlg"); if (d && d.open) d.close(); dlgHandlers = {}; }
+  function closeDialog() { const d = document.getElementById("dlg"); if (d) { if (d.open) d.close(); d.classList.remove("dlg-search"); } dlgHandlers = {}; }
   function confirmDialog(title, text, yesLabel, onYes, danger) {
     openDialog(`<h2 id="dlg-title">${esc(title)}</h2><p>${esc(text)}</p>
       <div class="row end"><button class="btn ghost" data-act="dlg-close">Annuler</button>
       <button class="btn ${danger ? "danger solid" : "primary"}" data-act="dlg-yes">${esc(yesLabel)}</button></div>`, { yes: onYes });
   }
+
+  /* =========================================================
+     Recherche rapide (Ctrl K) : séances, mois, notions, notes, livres, pages
+     ========================================================= */
+  let qsItems = [], qsActive = 0;
+  function searchEntries() {
+    const out = [];
+    [["aujourdhui", "Aujourd'hui"], ["parcours", "Parcours"], ["reviser", "Réviser"], ["carnet", "Carnet"], ["bibliotheque", "Bibliothèque"], ["liens", "Liens"], ["syntheses", "Synthèses"], ["reglages", "Données et réglages"]]
+      .forEach(([id, t]) => out.push({ kind: "Page", t, text: t, go: () => go(id) }));
+    state.months.forEach((m, mi) => out.push({ kind: "Mois", t: `${mi + 1}. ${m.title}`, sub: m.period || "", text: m.title + " " + (m.question || ""), go: () => { state.ui.monthId = m.id; save(); go("parcours"); } }));
+    flat().forEach(({ s, m, mi, wi }) => {
+      const p = prog(s.id);
+      out.push({ kind: "Séance", t: s.title, sub: `${mi + 1}. ${m.title} · semaine ${wi + 1}${p ? (p.status === "done" ? " · faite" : " · commencée") : ""}`, text: s.title + " " + (s.hook || "") + " " + (s.notions || []).map((x) => x.term).join(" "), go: () => actions["open-session"]({ dataset: { id: s.id } }) });
+    });
+    state.notions.forEach((x) => out.push({ kind: "Notion", t: x.term, sub: x.def || "", text: x.term + " " + (x.def || ""), go: () => notionDialog(x) }));
+    state.notes.forEach((x) => out.push({ kind: "Note", t: x.title || "Sans titre", sub: (x.body || "").slice(0, 90), text: (x.title || "") + " " + (x.body || ""), go: () => noteDialog(x) }));
+    catalog().forEach((b) => out.push({ kind: "Livre", t: b.t, sub: b.a || "", text: b.t + " " + (b.a || ""), go: () => ficheDialog(b.key) }));
+    return out;
+  }
+  function searchResults(q) {
+    const terms = norm(q).split(/\s+/).filter(Boolean);
+    const all = searchEntries();
+    if (!terms.length) {
+      const n = nextSession();
+      return all.filter((e) => e.kind === "Page" || (n && e.kind === "Séance" && e.t === n.s.title)).sort((a, b) => (a.kind === "Séance" ? -1 : 0) - (b.kind === "Séance" ? -1 : 0));
+    }
+    return all.map((e) => {
+      const t = norm(e.t), x = norm(e.text);
+      if (!terms.every((w) => x.includes(w) || t.includes(w))) return null;
+      const score = (t.startsWith(terms[0]) ? 4 : 0) + terms.filter((w) => t.includes(w)).length * 2 + (e.kind === "Séance" ? 1 : 0);
+      return { e, score };
+    }).filter(Boolean).sort((a, b) => b.score - a.score).slice(0, 40).map((x) => x.e);
+  }
+  function renderSearchResults(q) {
+    qsItems = searchResults(q); qsActive = 0;
+    const box = document.getElementById("qs-results"); if (!box) return;
+    box.innerHTML = qsItems.length ? qsItems.map((e, i) => `<li role="option" id="qs-${i}" aria-selected="${i === 0}"><button data-act="search-go" data-i="${i}" tabindex="-1"><span class="qs-kind">${e.kind}</span><span class="qs-t">${esc(e.t)}</span>${e.sub ? `<span class="qs-sub">${esc(e.sub)}</span>` : ""}</button></li>`).join("")
+      : `<li class="qs-empty">Aucun résultat.</li>`;
+    const inp = document.getElementById("qs-input"); if (inp) inp.setAttribute("aria-activedescendant", qsItems.length ? "qs-0" : "");
+  }
+  function moveSearch(d) {
+    if (!qsItems.length) return;
+    qsActive = (qsActive + d + qsItems.length) % qsItems.length;
+    document.querySelectorAll("#qs-results [role=option]").forEach((li, i) => li.setAttribute("aria-selected", i === qsActive));
+    const li = document.getElementById("qs-" + qsActive); if (li) li.scrollIntoView({ block: "nearest" });
+    document.getElementById("qs-input").setAttribute("aria-activedescendant", "qs-" + qsActive);
+  }
+  function openSearch() {
+    openDialog(`<h2 id="dlg-title" class="sr-only">Rechercher</h2>
+      <div class="qs-field">${ICON.search}<input type="search" id="qs-input" data-input="qsearch" placeholder="Rechercher une séance, une notion, une note, un livre…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="qs-results" aria-autocomplete="list" autofocus></div>
+      <ul class="qs-results" id="qs-results" role="listbox" aria-label="Résultats"></ul>
+      <p class="qs-help"><span class="kbd">↑</span> <span class="kbd">↓</span> pour choisir, <span class="kbd">Entrée</span> pour ouvrir, <span class="kbd">Échap</span> pour fermer</p>`);
+    document.getElementById("dlg").classList.add("dlg-search");
+    renderSearchResults("");
+  }
+  function runSearch(i) { const e = qsItems[i]; if (!e) return; closeDialog(); e.go(); }
 
   /* =========================================================
      VUE : Aujourd'hui
@@ -408,60 +524,36 @@
     if (n) {
       const p = prog(n.s.id);
       const started = p && p.status === "started";
-      hero = `<section class="hero-session" aria-labelledby="hero-t" data-numeral="${roman(n.mi + 1)}">
-        ${started ? `<div class="resume-note">Reprise · étape ${p.step + 1} sur 4, ${STEP_NAMES[p.step].toLowerCase()}</div>` : ""}
-        <div class="where"><b>Mois ${roman(n.mi + 1)}</b>${esc(n.m.title)} · semaine ${n.wi + 1}, séance ${n.si + 1}</div>
+      hero = `<section class="today-session" aria-labelledby="hero-t">
+        <div class="where">${started ? `<span class="resume-note">Reprise à l'étape ${p.step + 1} sur 4 : ${STEP_NAMES[p.step].toLowerCase()}</span>` : `<span>Séance du jour</span>`}<span>${n.mi + 1}. ${esc(n.m.title)} · semaine ${n.wi + 1}, séance ${n.si + 1}</span></div>
         <h2 id="hero-t">${esc(n.s.title)}</h2>
         <p class="hook">${esc(n.s.hook)}</p>
         <div class="row">
           <button class="btn primary lg" data-act="open-session" data-id="${n.s.id}">${ICON.play}${started ? "Reprendre la séance" : "Commencer la séance"}</button>
           <span class="tag ${n.s.kind}">${KIND_LABEL[n.s.kind]}</span>
         </div>
-        <ul class="plan" aria-label="Déroulé conseillé">
-          <li><b>5 min</b> révisions${due ? ` (${due})` : ""}</li><li><b>15 min</b> ${n.s.kind === "debat" ? "positions" : "lecture"}</li><li><b>5 min</b> ${n.s.kind === "debat" ? "votre argument" : "rappel actif"}</li>
-        </ul>
+        <p class="plan">${n.s.kind === "debat" ? "5 min de révisions, 15 min pour lire les positions, 5 min pour écrire la vôtre." : `5 min de révisions${due ? ` (${due})` : ""}, 15 min de lecture, 5 min de rappel actif.`}</p>
       </section>`;
     } else {
-      hero = `<section class="hero-session"><h2>Parcours terminé</h2><p class="hook">Toutes les séances sont faites. Vous pouvez ajouter un mois dans le Parcours, ou relire vos synthèses.</p><a class="btn primary" href="#parcours">Ouvrir le parcours</a></section>`;
+      hero = `<section class="today-session"><h2>Parcours terminé</h2><p class="hook">Toutes les séances sont faites. Vous pouvez ajouter un mois dans le Parcours, ou relire vos synthèses.</p><a class="btn primary" href="#parcours">Ouvrir le parcours</a></section>`;
     }
 
     const backupDays = state.lastBackup ? daysBetween(state.lastBackup.slice(0, 10), t) : null;
     const needBackup = totalDone >= 3 && (backupDays === null || backupDays >= 14);
     const welcome = totalDone === 0 && !Object.keys(state.progress).length;
 
-    return `<div class="wrap">
-      <header class="page-head"><div><div class="eyebrow">${esc(fmtDate(t, { weekday: "long", day: "numeric", month: "long" }))}</div><h1>${greet}. <em>Au travail.</em></h1></div></header>
+    return `<div class="page">
+      <header class="page-head"><div><div class="eyebrow">${esc(fmtDate(t, { weekday: "long", day: "numeric", month: "long" }))}</div><h1>${greet}</h1></div></header>
       ${needBackup ? `<div class="banner"><span>${backupDays === null ? "Vous n'avez encore jamais sauvegardé vos données." : `Dernière sauvegarde il y a ${backupDays} jours.`} Elles ne vivent que dans ce navigateur.</span><a class="btn sm" href="#reglages">Sauvegarder</a></div>` : ""}
-      ${welcome ? `<div class="banner" style="background:var(--lapis-soft)"><span>Chaque séance dure environ 25 minutes : révisions, lecture, rappel actif, bilan. Vous pouvez la quitter à tout moment, elle reprendra au même endroit.</span></div>` : ""}
-      <div class="today">
-        <div class="today-main">${hero}
-          <figure class="quote"><span class="eyebrow label">Citation du jour</span><p>${esc(q[0])}</p><footer><b>${esc(q[1])}</b> · ${esc(q[2])}</footer></figure>
-        </div>
-        <div class="side-stack">
-          <section class="panel" aria-labelledby="rev-t">
-            <div class="row between"><h3 id="rev-t">Révisions</h3><span class="muted small num">${plural(state.cards.length, "fiche", "fiches")}</span></div>
-            <p class="small" style="margin:8px 0 12px;color:var(--ink-2)">${due ? `${plural(due, "fiche attend", "fiches attendent")} aujourd'hui.` : state.cards.length ? "Rien à revoir aujourd'hui." : "Vos fiches apparaîtront après votre première séance."}</p>
-            ${due ? `<a class="btn sm" href="#reviser">Réviser maintenant</a>` : ""}
-          </section>
-          <section class="panel" aria-labelledby="week-t">
-            <div class="row between"><h3 id="week-t">Cette semaine</h3><span class="muted small num">${plural(weekLogs.length, "séance", "séances")} · ${weekMin} min</span></div>
-            <div class="week-dots" role="list">${week.map((d, i) => `<div role="listitem" class="${sessionsOn(d).length ? "on" : ""} ${d === t ? "is-today" : ""}" aria-label="${fmtDate(d, { weekday: "long" })}${sessionsOn(d).length ? " : séance faite" : ""}"><span></span>${dayNames[i]}</div>`).join("")}</div>
-            <p class="small muted" style="margin:12px 0 0">Rythme visé : 5 séances par semaine. Un jour manqué ne casse rien.</p>
-          </section>
-          <section class="panel" aria-labelledby="lib-t">
-            <div class="row between"><h3 id="lib-t">En lecture</h3><a class="small" href="#bibliotheque">Bibliothèque</a></div>
-            ${reading.length ? `<ul class="reading-now">${reading.map((b) => `<li><em>${esc(b.t)}</em>${b.a ? `<br><span class="muted">${esc(b.a)}</span>` : ""}</li>`).join("")}</ul>`
-              : `<p class="small" style="margin:8px 0 0;color:var(--ink-2)">Aucun livre en cours. La bibliothèque propose des lectures pour chaque mois.</p>`}
-          </section>
-          <section class="panel" aria-labelledby="path-t">
-            <div class="row between"><h3 id="path-t">Parcours</h3><a class="small" href="#parcours">Voir</a></div>
-            <p class="small" style="margin:8px 0 6px;color:var(--ink-2)">Mois en cours : <b>${esc(m.title)}</b>, ${ms.done} sur ${ms.total} séances.</p>
-            <div class="progress" role="progressbar" aria-valuenow="${Math.round(ms.pct * 100)}" aria-valuemin="0" aria-valuemax="100" aria-label="Progression du mois"><span style="width:${ms.pct * 100}%"></span></div>
-            <div class="month-strip">${state.months.map((mm) => { const st = monthStats(mm); return `<a href="#parcours" data-act="pick-month" data-id="${mm.id}" class="${mm.id === m.id ? "current" : ""}" title="${esc(mm.title)} : ${st.done}/${st.total}" aria-label="${esc(mm.title)}, ${st.done} séances sur ${st.total}"><i style="height:${st.pct * 100}%"></i></a>`; }).join("")}</div>
-            <div class="month-strip-labels" aria-hidden="true">${state.months.map((_, i) => `<span>${roman(i + 1)}</span>`).join("")}</div>
-          </section>
-        </div>
-      </div>
+      ${welcome ? `<div class="callout">Une séance dure environ 25 minutes : révisions, lecture, rappel actif, bilan. Vous pouvez la quitter à tout moment, elle reprendra au même endroit. <span class="muted">Astuce : <span class="kbd">Ctrl K</span> ouvre la recherche partout.</span></div>` : ""}
+      ${hero}
+      <dl class="props" aria-label="Où j'en suis">
+        <div><dt>${ICON.review}Révisions</dt><dd>${due ? `<a href="#reviser">${plural(due, "fiche à revoir", "fiches à revoir")}</a>` : state.cards.length ? `Rien à revoir aujourd'hui <span class="muted">· ${plural(state.cards.length, "fiche", "fiches")} en tout</span>` : `<span class="muted">Vos fiches apparaîtront après votre première séance.</span>`}</dd></div>
+        <div><dt>${ICON.today}Cette semaine</dt><dd><span class="week-dots" role="list">${week.map((d, i) => `<span role="listitem" class="${sessionsOn(d).length ? "on" : ""} ${d === t ? "is-today" : ""}" title="${fmtDate(d, { weekday: "long" })}" aria-label="${fmtDate(d, { weekday: "long" })}${sessionsOn(d).length ? " : séance faite" : ""}">${dayNames[i]}</span>`).join("")}</span><span class="muted num">${plural(weekLogs.length, "séance", "séances")} sur 5 · ${weekMin} min</span></dd></div>
+        <div><dt>${ICON.path}Parcours</dt><dd><a href="#parcours" data-act="pick-month" data-id="${m.id}">${state.months.indexOf(m) + 1}. ${esc(m.title)}</a><span class="muted num">${ms.done} sur ${ms.total}</span><span class="progress" role="progressbar" aria-valuenow="${Math.round(ms.pct * 100)}" aria-valuemin="0" aria-valuemax="100" aria-label="Progression du mois"><span style="width:${ms.pct * 100}%"></span></span></dd></div>
+        <div><dt>${ICON.book}En lecture</dt><dd>${reading.length ? reading.map((b) => `<button class="linklike" data-act="open-fiche" data-key="${esc(b.key)}">${esc(b.t)}</button>`).join('<span class="muted">·</span>') : `<a href="#bibliotheque">Choisir un livre dans la bibliothèque</a>`}</dd></div>
+      </dl>
+      <figure class="quote"><blockquote>${esc(q[0])}</blockquote><figcaption>${esc(q[1])}, <cite>${esc(q[2])}</cite></figcaption></figure>
     </div>`;
   }
 
@@ -479,7 +571,7 @@
       const st = monthStats(mm);
       const cls = st.total && st.done === st.total ? "done" : mm.id === cur.id ? "current" : "";
       return `<li><button class="month-btn ${cls}" data-act="pick-month" data-id="${mm.id}" ${mm.id === m.id ? 'aria-current="true"' : ""}>
-        <span class="n">${roman(i + 1)}</span><span class="t">${esc(mm.title)}</span><span class="s">${st.done}/${st.total} · ${esc(mm.period || "")}</span></button></li>`;
+        <span class="n">${String(i + 1)}</span><span class="t">${esc(mm.title)}</span><span class="s">${st.done}/${st.total} · ${esc(mm.period || "")}</span></button></li>`;
     }).join("");
 
     const weeks = m.weeks.map((w, wi) => {
@@ -514,7 +606,7 @@
     const st = monthStats(m);
     const monthSources = m.sources && m.sources.length ? `<details class="panel" style="margin-bottom:24px"><summary style="cursor:pointer;font-weight:700">Ressources conseillées pour ce mois (${m.sources.length})</summary><ul class="src-list" style="margin-top:14px">${m.sources.map(srcItem).join("")}</ul></details>` : "";
 
-    return `<div class="wrap">
+    return `<div class="wrap parcours-page">
       <header class="page-head"><div><h1>Parcours</h1><p>12 mois, un thème par mois, cinq séances par semaine. Tout est modifiable : titres, ordre, contenu.</p></div>
         <div class="row"><button class="btn ${editMode ? "primary" : ""}" data-act="toggle-edit" aria-pressed="${editMode}">${editMode ? ICON.check + "Terminer les modifications" : ICON.edit + "Modifier le parcours"}</button></div></header>
       <div class="parcours">
@@ -522,7 +614,7 @@
           ${editMode ? `<button class="btn ghost sm" style="margin-top:10px" data-act="add-month">${ICON.plus}Ajouter un mois</button>` : ""}</div>
         <div>
           <div class="month-head">
-            <div class="row between"><span class="eyebrow rubric">Mois ${roman(mi + 1)} · ${esc(m.period || "")}</span><span class="small muted num">${st.done}/${st.total} séances</span></div>
+            <div class="row between"><span class="eyebrow">Mois ${mi + 1} · ${esc(m.period || "")}</span><span class="small muted num">${st.done}/${st.total} séances</span></div>
             <h2 style="font-size:1.9rem;margin-top:6px">${esc(m.title)}</h2>
             ${m.question ? `<p class="q">${esc(m.question)}</p>` : ""}
             ${m.intro ? `<p>${esc(m.intro)}</p>` : ""}
@@ -578,7 +670,7 @@
     const sid = state.ui.sessionId;
     const f = sid && findSession(sid);
     if (!f) return `<div class="narrow empty"><strong>Aucune séance ouverte.</strong><a href="#aujourdhui">Revenir à l'accueil</a></div>`;
-    const { s, m, mi, wi, si } = f;
+    const { s } = f;
     const done = isDone(s.id);
     const p = done ? state.progress[s.id] : ensureProgress(s.id);
     const step = done ? (state.ui.relireStep == null ? 1 : state.ui.relireStep) : p.step;
@@ -599,7 +691,6 @@
         </div>
         <ol class="steps" aria-label="Étapes de la séance">${steps}</ol>
       </div>
-      <div class="eyebrow rubric">Mois ${roman(mi + 1)} · ${esc(m.title)} · semaine ${wi + 1}, séance ${si + 1}</div>
       ${content}
       <div class="session-foot">
         ${step > 0 ? `<button class="btn ghost" data-act="goto-step" data-step="${step - 1}" aria-label="Étape précédente">${ICON.back}<span class="lbl">Étape précédente</span></button>` : `<span></span>`}
@@ -688,7 +779,7 @@
     }
     return `<h1 style="margin:8px 0 6px">${esc(s.title)}</h1>
       <p class="lede">${esc(s.hook)}</p>
-      <div class="reading lettrine">${md(s.body)}</div>
+      <div class="reading">${md(s.body)}</div>
       ${s.kind === "synthese" ? `<div class="row" style="margin:6px 0 10px"><button class="btn" data-act="open-synth" data-id="${m.id}">${ICON.synth}Ouvrir la synthèse du mois</button>${(state.quizzes[m.id] || []).length ? `<button class="btn" data-act="start-quiz" data-id="${m.id}">Faire le quiz du mois</button>` : ""}</div>` : ""}
       ${notionsBlock(s, f)}
       ${s.perspective ? `<div class="aside-block"><h3>Mise en perspective</h3><div class="perspective">${md(s.perspective)}</div></div>` : ""}
@@ -826,7 +917,7 @@
     const rows = state.months.map((m, i) => {
       const qs = state.quizzes[m.id] || [];
       const last = state.quizLog.filter((l) => l.mid === m.id).slice(-1)[0];
-      return `<li class="item"><div class="row between"><div><div class="t">Mois ${roman(i + 1)} · ${esc(m.title)}</div>
+      return `<li class="item"><div class="row between"><div><div class="t">Mois ${String(i + 1)} · ${esc(m.title)}</div>
         <div class="m">${plural(qs.length, "question", "questions")}${last ? ` · dernier essai : ${last.score}/${last.total} le ${fmtDate(last.date, { day: "numeric", month: "short" })}` : ""}</div></div>
         <div class="row">${qs.length ? `<button class="btn sm primary" data-act="start-quiz" data-id="${m.id}">Lancer</button>` : ""}<button class="btn sm" data-act="add-quiz-q" data-id="${m.id}">${ICON.plus}Ajouter une question</button></div></div></li>`;
     }).join("");
@@ -894,36 +985,45 @@
       if (f === "mine" ? !b.mine : f && st !== f) return false;
       return !qText || norm(b.t + " " + (b.a || "")).includes(norm(qText));
     });
-    const shelves = state.months.map((m, i) => ({ m, i, list: visible.filter((b) => b.mid === m.id) })).filter((x) => x.list.length);
-    const orphans = visible.filter((b) => !state.months.some((m) => m.id === b.mid));
+    const monthF = state.ui.libMonth || "";
+    const rows = visible.filter((b) => !monthF || b.mid === monthF);
+    const mIndex = (mid) => state.months.findIndex((m) => m.id === mid);
+    rows.sort((x, y) => (mIndex(x.mid) < 0 ? 99 : mIndex(x.mid)) - (mIndex(y.mid) < 0 ? 99 : mIndex(y.mid)));
     const row = (b) => {
       const r = state.reading[b.key] || {};
-      return `<li class="book ${r.status ? "st-" + r.status : ""}">
-        <div class="bt">${b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.t)}</a>` : esc(b.t)}</div>
-        ${b.a ? `<div class="ba">${esc(b.a)}</div>` : ""}
-        ${b.note ? `<div class="bn">${esc(b.note)}</div>` : ""}
-        <div class="acts">
-          <label class="sr-only" for="rs-${esc(b.key)}">Statut de lecture</label>
-          <select id="rs-${esc(b.key)}" data-input="read-status" data-key="${esc(b.key)}"><option value="">Pas dans ma liste</option>${Object.entries(READ_STATUS).map(([k, l]) => `<option value="${k}" ${r.status === k ? "selected" : ""}>${l}</option>`).join("")}</select>
-          <button class="btn sm ${hasFiche(r) ? "fiche-on" : ""}" data-act="open-fiche" data-key="${esc(b.key)}">${hasFiche(r) ? ICON.check : ICON.edit}Fiche de lecture</button>
-          ${b.mine ? `<button class="icon-btn" data-act="edit-source" data-id="${esc(b.key)}" aria-label="Modifier ${esc(b.t)}">${ICON.edit}</button>` : ""}
-        </div></li>`;
+      const mi = mIndex(b.mid);
+      return `<tr>
+        <td class="db-title"><button class="linklike" data-act="open-fiche" data-key="${esc(b.key)}">${esc(b.t)}</button>${b.note ? `<div class="db-sub">${esc(b.note)}</div>` : ""}</td>
+        <td data-label="Auteur">${esc(b.a || "")}</td>
+        <td data-label="Mois" class="num">${mi >= 0 ? `${mi + 1}. ${esc(state.months[mi].title)}` : "Hors parcours"}</td>
+        <td data-label="Statut"><label class="sr-only" for="rs-${esc(b.key)}">Statut de lecture de ${esc(b.t)}</label><select class="cell-select st-${r.status || "none"}" id="rs-${esc(b.key)}" data-input="read-status" data-key="${esc(b.key)}"><option value="">Non choisi</option>${Object.entries(READ_STATUS).map(([k, l]) => `<option value="${k}" ${r.status === k ? "selected" : ""}>${l}</option>`).join("")}</select></td>
+        <td data-label="Fiche">${hasFiche(r) ? `<button class="linklike" data-act="open-fiche" data-key="${esc(b.key)}">${ICON.check}Rédigée</button>` : `<button class="btn ghost sm" data-act="open-fiche" data-key="${esc(b.key)}">Rédiger</button>`}</td>
+      </tr>`;
     };
-    const chips = [["", "Tous", books.length], ["lire", "À lire", counts.lire], ["cours", "En cours", counts.cours], ["lu", "Lus", counts.lu], ["mine", "Mes ajouts", state.sources.length]];
-    return `<div class="wrap" style="max-width:900px"><header class="page-head"><div><span class="eyebrow rubric">Douze rayons, un par mois</span><h1>Bibliothèque</h1>
-        <p>Les ouvrages et ressources du parcours, rangés par thème. Choisissez vos lectures, suivez-les, et gardez de chacune une fiche : l'idée centrale, ce que vous retenez, une citation.</p></div>
+    const views = [["", "Tous", books.length], ["lire", "À lire", counts.lire], ["cours", "En cours", counts.cours], ["lu", "Lus", counts.lu], ["mine", "Mes ajouts", state.sources.length]];
+    return `<div class="wrap"><header class="page-head"><div><h1>Bibliothèque</h1>
+        <p>Les ouvrages du parcours et les vôtres. Choisissez un statut, puis ouvrez un titre pour rédiger sa fiche de lecture.</p></div>
         <button class="btn primary" data-act="new-source">${ICON.plus}Ajouter un livre</button></header>
-      <div class="toolbar"><label class="sr-only" for="lib-search">Rechercher un livre</label><input type="search" id="lib-search" data-input="lib-search" placeholder="Rechercher un titre ou un auteur" value="${esc(qText)}"></div>
-      <div class="chips" style="margin-bottom:28px">${chips.map(([k, l, n]) => `<button class="chip" aria-pressed="${f === k}" data-act="lib-filter" data-id="${k}">${l} <span class="num">${n}</span></button>`).join("")}</div>
-      ${shelves.map(({ m, i, list }) => `<section class="shelf" aria-labelledby="sh-${m.id}"><div class="shelf-head"><span class="num-roman">${roman(i + 1)}</span><h2 id="sh-${m.id}">${esc(m.title)}</h2><span class="muted">${plural(list.length, "ouvrage", "ouvrages")}</span></div><ul class="books">${list.map(row).join("")}</ul></section>`).join("")}
-      ${orphans.length ? `<section class="shelf"><div class="shelf-head"><span class="num-roman">·</span><h2>Hors parcours</h2></div><ul class="books">${orphans.map(row).join("")}</ul></section>` : ""}
-      ${!shelves.length && !orphans.length ? `<div class="empty"><strong>${f || qText ? "Aucun livre ne correspond." : "La bibliothèque est vide."}</strong>${f === "lire" ? "Choisissez « À lire » à côté d'un ouvrage pour l'ajouter à votre liste." : ""}</div>` : ""}
+      <div class="db-views" role="group" aria-label="Vues">${views.map(([k, l, n]) => `<button aria-pressed="${f === k}" data-act="lib-filter" data-id="${k}">${l} <span class="muted num">${n}</span></button>`).join("")}</div>
+      <div class="toolbar"><label class="sr-only" for="lib-search">Rechercher un livre</label><input type="search" id="lib-search" data-input="lib-search" placeholder="Rechercher un titre ou un auteur" value="${esc(qText)}">
+        <label class="sr-only" for="lib-month">Mois</label><select id="lib-month" data-input="lib-month" style="width:auto"><option value="">Tous les mois</option>${state.months.map((m, i) => `<option value="${m.id}" ${monthF === m.id ? "selected" : ""}>${i + 1}. ${esc(m.title)}</option>`).join("")}</select></div>
+      ${rows.length ? `<div class="db-wrap"><table class="db"><thead><tr><th scope="col">Titre</th><th scope="col">Auteur</th><th scope="col">Mois</th><th scope="col">Statut</th><th scope="col">Fiche</th></tr></thead><tbody>${rows.map(row).join("")}</tbody></table></div>
+        <p class="small muted" style="margin-top:10px">${plural(rows.length, "ouvrage", "ouvrages")}</p>`
+        : `<div class="empty"><strong>${f || qText || monthF ? "Aucun livre ne correspond." : "La bibliothèque est vide."}</strong>${f === "lire" ? "Choisissez « À lire » dans la colonne Statut pour ajouter un livre à votre liste." : ""}</div>`}
     </div>`;
   }
   function ficheDialog(key) {
     const b = catalog().find((x) => x.key === key); if (!b) return;
     const r = state.reading[key] || {};
-    openDialog(`<span class="eyebrow rubric">Fiche de lecture</span><h2 id="dlg-title" style="font-style:italic;margin-top:-6px">${esc(b.t)}</h2>${b.a ? `<p class="muted" style="margin:-8px 0 0">${esc(b.a)}</p>` : ""}
+    const mi = state.months.findIndex((m) => m.id === b.mid);
+    openDialog(`<span class="eyebrow">Fiche de lecture</span><h2 id="dlg-title" style="margin-top:-6px">${esc(b.t)}</h2>
+      <dl class="props compact">
+        ${b.a ? `<div><dt>Auteur</dt><dd>${esc(b.a)}</dd></div>` : ""}
+        <div><dt>Mois</dt><dd>${mi >= 0 ? `${mi + 1}. ${esc(state.months[mi].title)}` : "Hors parcours"}</dd></div>
+        ${b.note ? `<div><dt>Présentation</dt><dd>${esc(b.note)}</dd></div>` : ""}
+        ${b.url ? `<div><dt>Lien</dt><dd><a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.url.replace(/^https?:\/\//, "").slice(0, 60))}</a></dd></div>` : ""}
+      </dl>
+      ${b.mine ? `<div><button class="btn ghost sm" data-act="edit-source" data-id="${esc(b.key)}">${ICON.edit}Modifier ces informations</button></div>` : ""}
       <label class="field" for="fi-central">L'idée centrale, en une phrase<input type="text" id="fi-central" value="${esc(r.central || "")}" autofocus></label>
       <label class="field" for="fi-keep">Ce que je retiens <span class="hint">Trois idées, avec vos mots. Markdown possible.</span><textarea id="fi-keep" class="writing" style="min-height:150px">${esc(r.keep || "")}</textarea></label>
       <label class="field" for="fi-quote">Une citation à garder<textarea id="fi-quote" style="min-height:70px">${esc(r.quote || "")}</textarea></label>
@@ -1093,6 +1193,7 @@
   function viewPlus() {
     return `<div class="wrap narrow"><header class="page-head"><h1>Plus</h1></header>
       <ul class="list">
+        <li><button class="item clickable" data-act="open-search"><span class="t">Rechercher</span><span class="ex">Une séance, une notion, une note, un livre.</span></button></li>
         <li><a class="item clickable" href="#bibliotheque" style="text-decoration:none"><span class="t">Bibliothèque</span><span class="ex">Les livres du parcours, vos lectures et vos fiches de lecture.</span></a></li>
         <li><a class="item clickable" href="#liens" style="text-decoration:none"><span class="t">Liens</span><span class="ex">La carte des idées, événements, œuvres et disciplines.</span></a></li>
         <li><a class="item clickable" href="#syntheses" style="text-decoration:none"><span class="t">Synthèses</span><span class="ex">Une synthèse guidée par mois.</span></a></li>
@@ -1212,7 +1313,7 @@
       <label class="field" for="so-t">Titre<input type="text" id="so-t" value="${esc(s ? s.t : "")}" autofocus></label>
       <div class="grid-2"><label class="field" for="so-a">Auteur<input type="text" id="so-a" value="${esc(s ? s.a : "")}"></label>
       <label class="field" for="so-url">Lien (facultatif)<input type="url" id="so-url" value="${esc(s ? s.url || "" : "")}" placeholder="https://"></label></div>
-      <label class="field" for="so-month">Rayon<select id="so-month">${state.months.map((m, i) => `<option value="${m.id}" ${(s ? s.mid : currentMonth().id) === m.id ? "selected" : ""}>${roman(i + 1)}. ${esc(m.title)}</option>`).join("")}</select></label>
+      <label class="field" for="so-month">Mois<select id="so-month">${state.months.map((m, i) => `<option value="${m.id}" ${(s ? s.mid : currentMonth().id) === m.id ? "selected" : ""}>${String(i + 1)}. ${esc(m.title)}</option>`).join("")}</select></label>
       <label class="field" for="so-note">Présentation<textarea id="so-note" placeholder="Éditeur, année, chapitres utiles…">${esc(s ? s.note || "" : "")}</textarea></label>
       <div class="row between">${s ? `<button class="btn danger" data-act="dlg-delete">${ICON.trash}Supprimer</button>` : "<span></span>"}<span class="row"><button class="btn ghost" data-act="dlg-close">Annuler</button><button class="btn primary" data-act="dlg-save">Enregistrer</button></span></div>`, {
       save: () => {
@@ -1403,6 +1504,9 @@
     "move-month": (el) => { moveIn(state.months, state.months.find((x) => x.id === el.dataset.id), Number(el.dataset.dir)); save(); refresh(); },
     "add-month": () => textDialog("Nouveau mois", [{ label: "Titre", value: "" }, { label: "Période", value: "" }, { label: "Question directrice", value: "" }, { label: "Présentation", value: "", long: true }], ([t, p, q, i]) => { const id = "m" + uid(); state.months.push({ id, title: t, period: p, question: q, intro: i, sources: [], synthesisPrompts: [], weeks: [{ id: "w" + uid(), title: "Semaine 1", question: "", sessions: [] }] }); state.ui.monthId = id; }),
     "delete-month": (el) => { const m = state.months.find((x) => x.id === el.dataset.id); if (state.months.length < 2) { toast("Le parcours doit garder au moins un mois."); return; } confirmDialog("Supprimer ce mois ?", `« ${m.title} » et toutes ses séances seront retirés du parcours. Vos notes et fiches sont conservées.`, "Supprimer", () => { state.months.splice(state.months.indexOf(m), 1); state.ui.monthId = state.months[0].id; save(); closeDialog(); refresh(); }, true); },
+    "tree-toggle": (el) => { state.ui.tree = state.ui.tree || {}; state.ui.tree[el.dataset.id] = el.getAttribute("aria-expanded") !== "true"; save(); refresh(); },
+    "open-search": () => openSearch(),
+    "search-go": (el) => runSearch(Number(el.dataset.i)),
     "lib-filter": (el) => { state.ui.libFilter = el.dataset.id; refresh(); },
     "open-fiche": (el) => ficheDialog(el.dataset.key),
     "revise-tab": (el) => { state.ui.reviseTab = el.dataset.id; freeQueue = null; refresh(); },
@@ -1458,10 +1562,17 @@
     fn(el, ev);
   });
   document.addEventListener("keydown", (ev) => {
+    if ((ev.ctrlKey || ev.metaKey) && !ev.altKey && ev.key.toLowerCase() === "k") { ev.preventDefault(); openSearch(); return; }
+    if (ev.target.id === "qs-input") {
+      if (ev.key === "ArrowDown" || ev.key === "ArrowUp") { ev.preventDefault(); moveSearch(ev.key === "ArrowDown" ? 1 : -1); }
+      else if (ev.key === "Enter") { ev.preventDefault(); runSearch(qsActive); }
+      return;
+    }
     const g = ev.target.closest && ev.target.closest('svg [data-act="open-node"]');
     if (g && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); actions["open-node"](g); return; }
     if (/^(INPUT|TEXTAREA|SELECT)$/.test(ev.target.tagName) || ev.metaKey || ev.ctrlKey || ev.altKey) return;
     if (document.getElementById("dlg") && document.getElementById("dlg").open) return;
+    if (ev.key === "/") { ev.preventDefault(); openSearch(); return; }
     const r = route();
     const onReview = (r === "seance" && reviewQueue && (state.progress[state.ui.sessionId] || {}).step === 0) || (r === "reviser" && (state.ui.reviseTab || "fiches") === "fiches");
     if (!onReview) return;
@@ -1489,6 +1600,7 @@
     else if (kind === "card-search") deferRefresh(() => { state.ui.cardSearch = el.value; });
     else if (kind === "node-search") deferRefresh(() => { state.ui.nodeSearch = el.value; });
     else if (kind === "lib-search") deferRefresh(() => { state.ui.libSearch = el.value; });
+    else if (kind === "qsearch") renderSearchResults(el.value);
   });
   document.addEventListener("change", (ev) => {
     const el = ev.target; const kind = el.dataset && el.dataset.input; if (!kind) return;
@@ -1498,6 +1610,7 @@
       save(); applyPrefs(); toast("Préférence enregistrée.");
     } else if (kind === "autocards") { state.settings.autoCards = el.checked; save(); }
     else if (kind === "synth-month") { state.ui.synthMonth = el.value; save(); refresh(); }
+    else if (kind === "lib-month") { state.ui.libMonth = el.value; save(); refresh(); }
     else if (kind === "read-status") {
       const r = state.reading[el.dataset.key] = state.reading[el.dataset.key] || {};
       r.status = el.value || undefined; r.updated = new Date().toISOString(); save(); refresh();

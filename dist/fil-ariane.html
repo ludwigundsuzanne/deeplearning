@@ -1,51 +1,52 @@
 <title>Fil d'Ariane</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Hanken+Grotesk:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
 <style>
-/* Fil d'Ariane : une salle de lecture. Encre et vélin, une seule couleur vive : le rouge
-   des rubriques, celui que les copistes réservaient aux titres. Rail à gauche, colonne de lecture.
-   (--lapis désigne l'accent, ici le rouge de rubrique ; le nom est conservé pour le code.) */
+/* Fil d'Ariane : un espace de travail calme. Barre latérale, pages, blocs et bases de données
+   pour s'orienter ; une colonne de lecture en serif pour lire longtemps. Une seule couleur d'action.
+   (--lapis désigne la couleur d'accent ; le nom est conservé pour le code.) */
 :root {
-  --paper: #f3efe6;
-  --sheet: #fbf9f4;
-  --sunk: #e9e4d8;
-  --ink: #15130f;
-  --ink-2: #4b453c;
-  --ink-3: #6f675b;
-  --line: #d9d2c3;
-  --lapis: #b8321c;
-  --lapis-soft: #f3e1d9;
-  --verdigris: #4f6a3c;
-  --verdigris-soft: #e3e8d6;
-  --amber: #8a5f12;
-  --amber-soft: #f1e5c8;
-  --rust: #973447;
-  --rust-soft: #f2dde0;
-  --focus: #b8321c;
-  --on-accent: #fffaf2;
-  --shadow: 0 1px 0 rgba(21, 19, 15, .04), 0 10px 30px -12px rgba(21, 19, 15, .18);
+  --paper: #ffffff;
+  --sheet: #ffffff;
+  --side: #f7f7f5;
+  --sunk: #efefed;
+  --ink: #26251f;
+  --ink-2: #55534d;
+  --ink-3: #73716b;
+  --line: #e6e5e1;
+  --lapis: #2463c9;
+  --lapis-soft: #e9f0fb;
+  --verdigris: #3b7a43;
+  --verdigris-soft: #e6f2e6;
+  --amber: #8a5a00;
+  --amber-soft: #fbf0d9;
+  --rust: #b03a2e;
+  --rust-soft: #fbe8e5;
+  --focus: #2463c9;
+  --on-accent: #ffffff;
+  --shadow: 0 12px 40px -12px rgba(15, 15, 15, .22), 0 0 0 1px rgba(15, 15, 15, .05);
 
-  --serif: "EB Garamond", "Garamond", "Iowan Old Style", Georgia, serif;
-  --sans: "Hanken Grotesk", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --fs: 17px;
-  --radius: 6px;
-  --rail: 240px;
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --fs: 16px;
+  --radius: 8px;
+  --rail: 264px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0f0e0c; --sheet: #181614; --sunk: #221f1b; --ink: #f0e9dc; --ink-2: #c2b9a9; --ink-3: #8f8676;
-    --line: #2e2a25; --lapis: #ff5a36; --lapis-soft: #34170f; --verdigris: #a3bd86; --verdigris-soft: #1f2718;
-    --amber: #e3b25a; --amber-soft: #33270f; --rust: #e28d9b; --rust-soft: #351a1f; --focus: #ff5a36; --on-accent: #0f0e0c;
-    --shadow: 0 1px 0 rgba(255,255,255,.03), 0 14px 40px -16px rgba(0,0,0,.7); color-scheme: dark;
+    --paper: #191918; --sheet: #202020; --side: #1f1f1e; --sunk: #2b2b2a; --ink: #ebeae6; --ink-2: #bdbbb5; --ink-3: #95938d;
+    --line: #2f2f2d; --lapis: #74a7f8; --lapis-soft: #1c2a40; --verdigris: #8cc290; --verdigris-soft: #1c2a1e;
+    --amber: #e4b45f; --amber-soft: #33290f; --rust: #f08f84; --rust-soft: #3a1e1b; --focus: #74a7f8; --on-accent: #0f1420;
+    --shadow: 0 14px 44px -12px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #0f0e0c; --sheet: #181614; --sunk: #221f1b; --ink: #f0e9dc; --ink-2: #c2b9a9; --ink-3: #8f8676;
-  --line: #2e2a25; --lapis: #ff5a36; --lapis-soft: #34170f; --verdigris: #a3bd86; --verdigris-soft: #1f2718;
-  --amber: #e3b25a; --amber-soft: #33270f; --rust: #e28d9b; --rust-soft: #351a1f; --focus: #ff5a36; --on-accent: #0f0e0c;
-  --shadow: 0 1px 0 rgba(255,255,255,.03), 0 14px 40px -16px rgba(0,0,0,.7); color-scheme: dark;
+  --paper: #191918; --sheet: #202020; --side: #1f1f1e; --sunk: #2b2b2a; --ink: #ebeae6; --ink-2: #bdbbb5; --ink-3: #95938d;
+  --line: #2f2f2d; --lapis: #74a7f8; --lapis-soft: #1c2a40; --verdigris: #8cc290; --verdigris-soft: #1c2a1e;
+  --amber: #e4b45f; --amber-soft: #33290f; --rust: #f08f84; --rust-soft: #3a1e1b; --focus: #74a7f8; --on-accent: #0f1420;
+  --shadow: 0 14px 44px -12px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06); color-scheme: dark;
 }
-:root[data-size="s"] { --fs: 16px; }
-:root[data-size="l"] { --fs: 19px; }
+:root[data-size="s"] { --fs: 15px; }
+:root[data-size="l"] { --fs: 18px; }
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
@@ -167,10 +168,6 @@ hr.rule { border: 0; border-top: 1px solid var(--line); margin: 24px 0; }
 .today { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 20px; align-items: start; }
 @media (max-width: 980px) { .today { grid-template-columns: minmax(0, 1fr); } }
 .hero-session { position: relative; padding: 28px; border-radius: 14px; background: var(--sheet); border: 1px solid var(--line); box-shadow: var(--shadow); overflow: hidden; }
-.hero-session::after {
-  content: ""; position: absolute; right: -40px; top: -40px; width: 180px; height: 180px; border-radius: 50%;
-  border: 1px solid var(--line); box-shadow: 0 0 0 22px var(--paper), 0 0 0 23px var(--line); opacity: .7; pointer-events: none;
-}
 .hero-session .where { font-size: .86rem; color: var(--ink-3); margin-bottom: 12px; position: relative; z-index: 1; }
 .hero-session h2 { font-size: 1.7rem; margin-bottom: 10px; position: relative; z-index: 1; }
 .hero-session .hook { font-family: var(--serif); font-size: 1.1rem; color: var(--ink-2); line-height: 1.5; margin: 0 0 22px; max-width: 54ch; position: relative; z-index: 1; }
@@ -350,112 +347,198 @@ dialog::backdrop { background: rgba(10, 12, 16, .45); }
 .code-out { width: 100%; min-height: 160px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .8rem; }
 
 /* =========================================================
-   Couche éditoriale : typographie de livre, rubriques, citations, bibliothèque
+   Espace de travail : barre latérale, pages, blocs, bases de données
    ========================================================= */
-h1, h2, h3 { font-weight: 500; letter-spacing: -.01em; }
-h1 { font-size: clamp(2rem, 1.5rem + 1.6vw, 2.75rem); line-height: 1.05; }
-h2 { font-size: 1.55rem; }
-h3 { font-size: 1.22rem; }
-.eyebrow { font-size: .7rem; letter-spacing: .16em; font-weight: 700; }
-.eyebrow.rubric, .rubric { color: var(--lapis); }
-.btn { border-radius: 4px; letter-spacing: .01em; }
-.btn.primary:hover { filter: brightness(1.06); }
-.panel, .item, .sessions, .position, .recall-item, dl.notions > div, .graph-wrap { border-radius: var(--radius); }
+h1, h2, h3 { font-family: var(--sans); font-weight: 700; letter-spacing: -.01em; }
+h1 { font-size: clamp(1.9rem, 1.6rem + 1vw, 2.4rem); line-height: 1.15; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.08rem; }
+.eyebrow { font-size: .78rem; letter-spacing: 0; text-transform: none; font-weight: 600; color: var(--ink-3); }
+.btn { border-radius: 6px; font-weight: 600; min-height: 38px; padding: 7px 14px; }
+.btn.lg { min-height: 46px; padding: 10px 20px; font-size: 1rem; }
+.btn.sm { min-height: 32px; }
+.btn.primary:hover { filter: brightness(1.08); }
+.kbd, kbd { font-family: var(--sans); font-size: .72rem; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 5px; color: var(--ink-3); background: var(--sheet); }
+input[type="text"], input[type="search"], input[type="date"], input[type="url"], select, textarea { border-radius: 6px; }
+a { color: var(--ink); text-decoration-color: color-mix(in srgb, var(--ink) 30%, transparent); }
+a:hover { text-decoration-color: var(--ink); }
+.reading a, .src-list a { color: var(--lapis); }
 
-/* Rail : un sommaire de livre */
-.brand { font-size: 1.45rem; font-weight: 500; padding-bottom: 26px; }
-.brand span { font-style: italic; }
-.nav-item { border-radius: 0; padding: 9px 12px 9px 14px; border-left: 2px solid transparent; }
-.nav-item:hover { background: transparent; color: var(--ink); border-left-color: var(--line); }
-.nav-item[aria-current="page"] { background: transparent; color: var(--ink); border-left-color: var(--lapis); }
-.nav-item[aria-current="page"] svg { color: var(--lapis); }
-.nav-item .count { background: transparent; color: var(--lapis); border: 1px solid currentColor; }
-.rail .motto { padding: 0 14px; font-family: var(--serif); font-style: italic; font-size: .98rem; color: var(--ink-3); line-height: 1.35; }
-.rail .motto b { font-style: normal; font-weight: 500; color: var(--lapis); }
-.tabbar a[aria-current="page"] { color: var(--lapis); }
-.tabbar .dot { background: var(--lapis); color: var(--on-accent); }
+/* Barre latérale */
+.rail { background: var(--side); gap: 2px; padding: calc(14px + env(safe-area-inset-top, 0px)) 10px 12px max(10px, env(safe-area-inset-left, 0px)); overflow: hidden; }
+.brand { font-family: var(--sans); font-size: .98rem; font-weight: 700; padding: 6px 8px 12px; gap: 9px; }
+.brand svg { width: 22px; height: 22px; }
+.side-search { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 32px; padding: 4px 8px; border: 0; background: none; border-radius: 6px; color: var(--ink-2); font-size: .9rem; cursor: pointer; text-align: left; }
+.side-search:hover { background: var(--sunk); }
+.side-search svg { width: 18px; height: 18px; }
+.side-search span { flex: 1; }
+.side-today { display: flex; align-items: center; gap: 10px; margin: 8px 0 10px; padding: 9px 10px; border-radius: 8px; background: var(--sheet); border: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.side-today:hover { border-color: var(--ink-3); }
+.side-today > svg { width: 16px; height: 16px; flex: none; color: var(--lapis); fill: currentColor; }
+.side-today span { display: grid; min-width: 0; }
+.side-today small { font-size: .74rem; color: var(--ink-3); font-weight: 600; }
+.side-today b { font-size: .88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.side-nav { display: grid; gap: 1px; }
+.nav-item { min-height: 32px; padding: 4px 8px; gap: 10px; border-radius: 6px; font-size: .9rem; color: var(--ink-2); }
+.nav-item svg { width: 18px; height: 18px; }
+.nav-item:hover { background: var(--sunk); color: var(--ink); }
+.nav-item[aria-current="page"] { background: var(--sunk); color: var(--ink); font-weight: 600; }
+.nav-item .count { background: var(--lapis-soft); color: var(--lapis); font-size: .74rem; }
+.side-scroll { flex: 1; min-height: 0; overflow-y: auto; margin: 14px -4px 8px; padding: 0 4px; }
+.side-label { font-size: .75rem; font-weight: 600; color: var(--ink-3); padding: 4px 8px 6px; }
+.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+.tree-row { display: flex; align-items: center; gap: 2px; min-height: 30px; padding-right: 6px; border-radius: 6px; color: var(--ink-2); font-size: .86rem; text-decoration: none; }
+.tree-row:hover { background: var(--sunk); }
+.tree-row.cur { background: var(--sunk); color: var(--ink); font-weight: 600; }
+.tree-row .tw { width: 22px; height: 22px; flex: none; display: grid; place-items: center; border: 0; background: none; border-radius: 4px; color: var(--ink-3); cursor: pointer; padding: 0; }
+.tree-row .tw:hover { background: var(--line); }
+.tree-row .tw svg { width: 13px; height: 13px; transition: transform .12s; }
+.tree-row .tw[aria-expanded="true"] svg { transform: rotate(90deg); }
+.tree-row .tl { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 4px 2px; color: inherit; text-decoration: none; border: 0; background: none; text-align: left; cursor: pointer; font: inherit; }
+.tree-row .tc { font-size: .72rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.tree-row.lvl2 { padding-left: 14px; color: var(--ink-3); }
+.tree-row.lvl3 { padding-left: 42px; gap: 8px; }
+.tree-row .st { width: 9px; height: 9px; flex: none; border-radius: 50%; border: 1.5px solid var(--ink-3); opacity: .6; }
+.tree-row .st.started { border-color: var(--amber); background: var(--amber); opacity: 1; }
+.tree-row .st.done { border-color: var(--verdigris); background: var(--verdigris); opacity: 1; }
+.rail .foot { font-size: .74rem; padding: 6px 8px 0; border-top: 1px solid var(--line); }
+
+/* Haut de page : fil d'Ariane */
+main { padding-top: calc(10px + env(safe-area-inset-top, 0px)); }
+.topbar { display: flex; align-items: center; gap: 8px; min-height: 40px; margin: 0 0 28px; }
+.crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; font-size: .86rem; color: var(--ink-3); min-width: 0; }
+.crumbs li { display: flex; align-items: center; min-width: 0; }
+.crumbs li + li::before { content: "/"; margin: 0 6px; color: var(--line); }
+.crumbs a, .crumbs span { color: var(--ink-3); text-decoration: none; padding: 2px 4px; border-radius: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 32ch; }
+.crumbs a:hover { background: var(--sunk); color: var(--ink); }
+.crumbs [aria-current] { color: var(--ink); }
+.topbar-search { margin-left: auto; display: none; }
+@media (max-width: 860px) { .topbar { margin-bottom: 16px; } .topbar-search { display: grid; } .crumbs a, .crumbs span { max-width: 18ch; } }
+.page { max-width: 760px; margin: 0 auto; }
 
 /* Accueil */
-.page-head h1 em { font-style: italic; color: var(--lapis); }
-.hero-session { border-radius: 8px; padding: 32px 32px 28px; }
-.hero-session::after {
-  content: attr(data-numeral); position: absolute; right: 22px; top: -18px; width: auto; height: auto; border: 0; box-shadow: none; border-radius: 0;
-  font-family: var(--serif); font-style: italic; font-size: 9rem; line-height: 1; color: var(--lapis); opacity: .1; pointer-events: none;
-}
-.hero-session h2 { font-size: clamp(1.8rem, 1.4rem + 1vw, 2.3rem); line-height: 1.1; }
-.hero-session .hook { font-size: 1.22rem; }
-.hero-session .where b { color: var(--lapis); font-weight: 700; letter-spacing: .12em; font-size: .72rem; text-transform: uppercase; margin-right: 6px; }
-.today-main { display: grid; gap: 20px; min-width: 0; }
+.page-head h1 { margin-top: 2px; }
+.callout { display: block; background: var(--side); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 22px; font-size: .94rem; line-height: 1.55; }
+.today-session { padding: 24px 0 26px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.today-session .where { display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: center; font-size: .84rem; color: var(--ink-3); margin-bottom: 10px; }
+.today-session .where > span:first-child:not(.resume-note) { font-weight: 600; color: var(--ink-2); }
+.today-session h2 { font-size: clamp(1.5rem, 1.3rem + .8vw, 1.9rem); line-height: 1.2; margin-bottom: 8px; }
+.today-session .hook { font-family: var(--serif); font-size: 1.12rem; line-height: 1.55; color: var(--ink-2); margin: 0 0 20px; max-width: 60ch; }
+.today-session .plan { margin: 14px 0 0; font-size: .84rem; color: var(--ink-3); }
+.resume-note { margin: 0; padding: 2px 8px; font-size: .8rem; }
+dl.props { margin: 22px 0 30px; display: grid; gap: 2px; }
+dl.props > div { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 12px; align-items: center; min-height: 38px; padding: 4px 6px; border-radius: 6px; }
+dl.props > div:hover { background: var(--side); }
+dl.props dt { display: flex; align-items: center; gap: 8px; font-size: .88rem; color: var(--ink-3); }
+dl.props dt svg { width: 17px; height: 17px; }
+dl.props dd { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: .94rem; min-width: 0; }
+dl.props .progress { display: block; flex: 1 1 120px; max-width: 200px; height: 5px; }
+dl.props.compact { margin: 0; }
+dl.props.compact > div { grid-template-columns: 110px minmax(0, 1fr); min-height: 30px; }
+@media (max-width: 560px) { dl.props > div { grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 8px 6px; } }
+.week-dots { display: inline-flex; gap: 4px; margin: 0; }
+.week-dots span { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: .68rem; color: var(--ink-3); }
+.week-dots .on { background: var(--verdigris); border-color: var(--verdigris); color: var(--on-accent); }
+.week-dots .is-today { border-color: var(--ink); color: var(--ink); font-weight: 700; }
+.week-dots .on.is-today { color: var(--on-accent); }
+.progress > span { background: var(--verdigris); }
+.linklike { border: 0; background: none; padding: 0; font: inherit; color: var(--ink); text-align: left; cursor: pointer; text-decoration: underline; text-decoration-color: color-mix(in srgb, var(--ink) 25%, transparent); text-underline-offset: 3px; display: inline-flex; align-items: center; gap: 5px; }
+.linklike:hover { text-decoration-color: var(--ink); }
+.linklike svg { width: 15px; height: 15px; color: var(--verdigris); }
+.quote { margin: 0; padding: 4px 0 4px 16px; border-left: 3px solid var(--line); }
+.quote blockquote { margin: 0; font-family: var(--serif); font-size: 1.08rem; line-height: 1.5; color: var(--ink); }
+.quote figcaption { margin-top: 6px; font-size: .84rem; color: var(--ink-3); }
 
-.quote { position: relative; margin: 0; padding: 22px 26px 20px 62px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.quote::before { content: "«"; position: absolute; left: 14px; top: 6px; font-family: var(--serif); font-size: 3.6rem; line-height: 1; color: var(--lapis); }
-.quote p { margin: 0; font-family: var(--serif); font-style: italic; font-size: 1.32rem; line-height: 1.4; text-wrap: pretty; }
-.quote footer { margin-top: 10px; font-size: .8rem; letter-spacing: .06em; color: var(--ink-3); }
-.quote footer b { color: var(--ink-2); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; }
-.quote .label { position: absolute; right: 0; top: -9px; background: var(--paper); padding-left: 10px; }
+/* Parcours : l'arborescence latérale sert de sommaire sur grand écran */
+@media (min-width: 861px) { .parcours { grid-template-columns: minmax(0, 1fr); } .parcours > div:first-child { display: none; } .parcours > div:first-child:has(.btn) { display: block; } .parcours > div:first-child:has(.btn) .month-list { display: none; } }
+.month-head h2 { font-size: 1.9rem; }
+.month-head .q { font-family: var(--serif); font-style: normal; }
+.week-title .eyebrow { color: var(--ink-3); }
+.sessions { border-radius: var(--radius); }
+.session-row { padding: 10px 12px; }
+.session-row:hover { background: var(--side); }
+.session-row.next { background: var(--lapis-soft); }
+.month-btn .n { border-radius: 6px; }
 
-.reading-now { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 10px; }
-.reading-now li { font-size: .92rem; line-height: 1.35; }
-.reading-now em { font-family: var(--serif); font-size: 1.08rem; color: var(--ink); }
-
-/* Lecture d'une séance : lettrine en rouge de rubrique */
-.reading { font-size: 1.24rem; line-height: 1.62; }
-.reading h2 { font-size: 1.5rem; }
-.reading h2::before { content: "¶ "; color: var(--lapis); font-style: normal; }
-.lettrine > p:first-of-type::first-letter {
-  float: left; font-family: var(--serif); font-size: 4.1em; line-height: .82; padding: .06em .09em 0 0; color: var(--lapis); font-weight: 500;
-}
-.lede { font-style: italic; font-size: 1.36rem; }
-.perspective { background: transparent; border-left: 2px solid var(--lapis); border-radius: 0; padding: 4px 0 4px 18px; font-size: 1.14rem; font-style: italic; }
-.aside-block h3 { color: var(--lapis); letter-spacing: .16em; }
-dl.notions dt { font-family: var(--serif); font-size: 1.12rem; font-weight: 600; }
-.recall-item .q, .review-card .front { font-weight: 500; }
-.review-card .front { font-size: 1.5rem; }
-.review-card .back { font-size: 1.16rem; }
-.position h3 { font-style: italic; }
-.position p { font-size: 1.12rem; }
-.session-top .title { font-family: var(--serif); font-size: 1.12rem; font-weight: 500; }
+/* Séance : confort de lecture */
+.session-shell { max-width: 720px; }
+.session-top { padding-top: 4px; }
+.session-top .title { font-size: .95rem; }
+.steps li.active button { color: var(--ink); }
 .steps li.active button::before { background: var(--lapis); }
+.steps li.done button::before { background: var(--verdigris); }
+.reading { font-family: var(--serif); font-size: 1.16rem; line-height: 1.75; }
+.reading h2 { font-family: var(--sans); font-size: 1.25rem; margin: 2em 0 .5em; }
+.reading h3 { font-family: var(--sans); font-size: 1.05rem; }
+.reading p, .reading ul, .reading ol { max-width: 66ch; }
+.lede { font-family: var(--serif); font-size: 1.24rem; color: var(--ink-2); font-style: normal; }
+.perspective { background: var(--side); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; font-size: 1.04rem; }
+.aside-block h3 { font-family: var(--sans); font-size: .82rem; letter-spacing: 0; text-transform: none; color: var(--ink-3); font-weight: 600; }
+dl.notions dt { font-weight: 600; }
+.recall-item .q, .review-card .front { font-weight: 500; }
+.review-card { box-shadow: none; border-radius: 10px; }
 
-/* Parcours : sommaire */
-.month-btn .n { font-family: var(--serif); font-size: .92rem; font-weight: 500; background: transparent; border: 1px solid var(--line); font-variant-numeric: normal; }
-.month-btn.done .n { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-.month-btn.current .n { background: var(--lapis); border-color: var(--lapis); color: var(--on-accent); }
-.month-btn .t { font-family: var(--serif); font-size: 1.04rem; font-weight: 500; }
-.month-head h2 { font-size: clamp(2rem, 1.6rem + 1.4vw, 2.6rem) !important; }
-.month-head .q { font-size: 1.24rem; }
-.week-title h3 { font-size: 1.3rem; }
-.week-title .eyebrow { color: var(--lapis); }
-.sessions { background: transparent; border-width: 1px 0; border-radius: 0; }
-.session-row { padding: 14px 6px; }
-.session-row .title { font-family: var(--serif); font-size: 1.12rem; font-weight: 500; }
-.session-row.next { background: transparent; box-shadow: inset 2px 0 0 var(--lapis); padding-left: 14px; }
-.session-row.done .status { background: var(--ink); border-color: var(--ink); }
-.session-row.done .status::after { border-color: var(--paper); }
-.week-dots .on span { background: var(--ink); border-color: var(--ink); }
-.week-dots .on span::after { border-color: var(--paper); }
-.week-dots .is-today span { border-color: var(--lapis); }
-.progress > span, .month-strip a > i { background: var(--lapis); }
+/* Listes : lignes plutôt que cartes */
+.list { gap: 0; border-top: 1px solid var(--line); }
+.item { background: transparent; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; padding: 12px 8px; }
+.item.clickable:hover { background: var(--side); border-color: var(--line); }
+.tabs button[aria-selected="true"] { border-bottom-color: var(--ink); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.panel { border-radius: var(--radius); }
 
-/* Bibliothèque */
-.shelf { margin-bottom: 34px; }
-.shelf-head { display: flex; align-items: baseline; gap: 14px; padding-bottom: 8px; border-bottom: 1px solid var(--ink); margin-bottom: 4px; }
-.shelf-head .num-roman { font-family: var(--serif); font-style: italic; font-size: 1.6rem; color: var(--lapis); min-width: 2.2ch; }
-.shelf-head h2 { font-size: 1.35rem; }
-.shelf-head .muted { margin-left: auto; font-size: .82rem; }
-.books { list-style: none; margin: 0; padding: 0; }
-.book { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
-.book .bt { font-family: var(--serif); font-style: italic; font-size: 1.18rem; line-height: 1.25; }
-.book .ba { font-size: .9rem; color: var(--ink-2); }
-.book .bn { font-size: .84rem; color: var(--ink-3); grid-column: 1; }
-.book .acts { grid-row: 1 / span 3; grid-column: 2; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
-.book select { width: auto; padding: 6px 8px; font-size: .86rem; }
-.book.st-lu .bt { text-decoration: none; }
-.book .fiche-on { color: var(--lapis); }
-.status-pill { font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
-.status-pill.cours { color: var(--lapis); }
-.status-pill.lu { color: var(--verdigris); }
-@media (max-width: 640px) { .book { grid-template-columns: minmax(0, 1fr); } .book .acts { grid-row: auto; grid-column: 1; justify-content: flex-start; } }
+/* Bibliothèque : base de données */
+.db-views { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin-bottom: 12px; overflow-x: auto; }
+.db-views button { border: 0; background: none; padding: 8px 10px; font-size: .9rem; color: var(--ink-3); border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; white-space: nowrap; }
+.db-views button:hover { color: var(--ink); }
+.db-views button[aria-pressed="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--ink); }
+.db-wrap { border-top: 1px solid var(--line); overflow-x: auto; }
+table.db { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.db th { text-align: left; font-weight: 500; font-size: .8rem; color: var(--ink-3); padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.db td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-2); }
+.db tr:hover td { background: var(--side); }
+.db td + td, .db th + th { border-left: 1px solid var(--line); }
+.db .db-title { min-width: 240px; }
+.db .db-title .linklike { color: var(--ink); font-weight: 600; text-decoration: none; }
+.db .db-title .linklike:hover { text-decoration: underline; }
+.db-sub { font-size: .8rem; color: var(--ink-3); margin-top: 2px; }
+.cell-select { width: auto; border: 0; background: transparent; padding: 3px 6px; font-size: .86rem; border-radius: 4px; cursor: pointer; }
+.cell-select:hover { background: var(--sunk); }
+.cell-select.st-lire { background: var(--amber-soft); color: var(--amber); }
+.cell-select.st-cours { background: var(--lapis-soft); color: var(--lapis); }
+.cell-select.st-lu { background: var(--verdigris-soft); color: var(--verdigris); }
+@media (max-width: 720px) {
+  table.db, .db tbody, .db tr, .db td { display: block; }
+  .db thead { display: none; }
+  .db tr { padding: 10px 2px; border-bottom: 1px solid var(--line); }
+  .db td { border: 0 !important; padding: 2px 0; display: flex; gap: 10px; align-items: center; }
+  .db td[data-label]::before { content: attr(data-label); width: 70px; flex: none; font-size: .78rem; color: var(--ink-3); }
+  .db td[data-label="Auteur"]:empty { display: none; }
+  .db .db-title { display: block; min-width: 0; margin-bottom: 4px; }
+}
+
+/* Recherche rapide */
+dialog.dlg-search { align-self: start; margin-top: 12vh; max-width: min(620px, calc(100vw - 24px)); }
+.dlg-search .dialog-body { padding: 0; gap: 0; }
+.qs-field { display: flex; align-items: center; gap: 10px; padding: 6px 14px; border-bottom: 1px solid var(--line); }
+.qs-field svg { width: 20px; height: 20px; color: var(--ink-3); flex: none; }
+.qs-field input { border: 0 !important; outline: none !important; background: transparent; font-size: 1.05rem; padding: 12px 0; }
+.qs-results { list-style: none; margin: 0; padding: 6px; max-height: min(52vh, 440px); overflow-y: auto; }
+.qs-results button { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 0 10px; width: 100%; text-align: left; border: 0; background: none; padding: 8px 10px; border-radius: 6px; cursor: pointer; color: var(--ink); }
+.qs-results [aria-selected="true"] button, .qs-results button:hover { background: var(--sunk); }
+.qs-kind { grid-row: span 2; font-size: .74rem; color: var(--ink-3); padding-top: 2px; }
+.qs-t { font-weight: 600; font-size: .93rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qs-sub { font-size: .8rem; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qs-empty { padding: 18px; text-align: center; color: var(--ink-3); }
+.qs-help { margin: 0; padding: 8px 14px; border-top: 1px solid var(--line); font-size: .76rem; color: var(--ink-3); }
+@media (max-width: 860px) { dialog.dlg-search { margin-top: 8px; } .qs-help { display: none; } }
+
+.dialog-body { border-radius: 12px; box-shadow: var(--shadow); }
+dialog::backdrop { background: rgba(15, 15, 15, .4); }
+.toast { border-radius: 8px; }
+.tabbar { background: var(--side); }
+.tabbar a[aria-current="page"] { color: var(--ink); }
+.tabbar .dot { background: var(--lapis); color: var(--on-accent); }
+#lib-month { flex: 0 1 260px; }
 
 </style>
 <div id="root"></div>
@@ -2182,8 +2265,6 @@ window.SEED_PLAN = [
     return html;
   }
 
-  const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX"];
-  const roman = (n) => ROMAN[n - 1] || String(n);
   const QUOTES = [
     ["Une vie sans examen ne vaut pas d'être vécue.", "Socrate, selon Platon", "Apologie de Socrate, 38a"],
     ["Chacun appelle barbarie ce qui n'est pas de son usage.", "Montaigne", "Essais, I, 31, « Des cannibales »"],
@@ -2231,6 +2312,7 @@ window.SEED_PLAN = [
     upload: I('<path d="M12 21V9M7 14l5-5 5 5M5 3h14"/>'),
     copy: I('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>'),
     close: I('<path d="M6 6l12 12M18 6L6 18"/>'),
+    search: I('<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>'),
     book: I('<path d="M4 4h5a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-5a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h6z"/>')
   };
   const LOGO = '<svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M16 16m-2 0a2 2 0 1 0 4 0a4 4 0 1 0-8 0a6 6 0 1 0 12 0a8 8 0 1 0-16 0a10 10 0 0 0 10 10" fill="none" stroke="var(--lapis)" stroke-width="1.8" stroke-linecap="round"/></svg>';
@@ -2446,14 +2528,60 @@ window.SEED_PLAN = [
       ["syntheses", "Synthèses", ICON.synth],
       ["reglages", "Données et réglages", ICON.settings]
     ];
-    const cur = r === "seance" ? "aujourdhui" : r;
+    const cur = r;
     const rail = items.map(([id, label, ic, n]) =>
       `<a class="nav-item" href="#${id}" ${cur === id ? 'aria-current="page"' : ""}>${ic}<span>${label}</span>${n ? `<span class="count" aria-label="${n} à revoir">${n}</span>` : ""}</a>`).join("");
     const tabs = [items[0], items[1], items[2], items[3], ["plus", "Plus", ICON.more]];
     const plusCur = ["bibliotheque", "liens", "syntheses", "reglages", "plus"].includes(cur);
+    const tabCur = cur === "seance" ? "parcours" : cur;
     const tabbar = tabs.map(([id, label, ic, n]) =>
-      `<a href="#${id}" ${(id === "plus" ? plusCur : cur === id) ? 'aria-current="page"' : ""}>${ic}<span>${label}</span>${n ? `<span class="dot">${n > 99 ? "99+" : n}</span>` : ""}</a>`).join("");
+      `<a href="#${id}" ${(id === "plus" ? plusCur : tabCur === id) ? 'aria-current="page"' : ""}>${ic}<span>${label}</span>${n ? `<span class="dot">${n > 99 ? "99+" : n}</span>` : ""}</a>`).join("");
     return { rail, tabbar };
+  }
+
+  /* Arborescence du parcours dans la barre latérale : mois > semaines > séances. */
+  function treeHtml(r) {
+    const n = nextSession();
+    const open = state.ui.tree || {};
+    const curSid = r === "seance" ? state.ui.sessionId : null;
+    const curF = curSid && findSession(curSid);
+    const focus = curF || n;
+    return state.months.map((m, mi) => {
+      const st = monthStats(m);
+      const mOpen = open[m.id] != null ? open[m.id] : !!(focus && focus.m.id === m.id);
+      const weeks = !mOpen ? "" : `<ul>${m.weeks.map((w, wi) => {
+        const wk = m.id + ":" + wi;
+        const wOpen = open[wk] != null ? open[wk] : !!(focus && focus.m.id === m.id && focus.wi === wi);
+        const sess = !wOpen ? "" : `<ul>${w.sessions.map((s) => {
+          const p = prog(s.id);
+          const isCur = curSid === s.id;
+          return `<li><a href="#seance" class="tree-row lvl3 ${isCur ? "cur" : ""}" data-act="open-session" data-id="${s.id}" ${isCur ? 'aria-current="page"' : ""}><span class="st ${p ? p.status : ""}" aria-hidden="true"></span><span class="tl">${esc(s.title)}</span>${p ? `<span class="sr-only">${p.status === "done" ? " (faite)" : " (commencée)"}</span>` : ""}</a></li>`;
+        }).join("")}</ul>`;
+        return `<li><div class="tree-row lvl2"><button class="tw" data-act="tree-toggle" data-id="${wk}" aria-expanded="${wOpen}" aria-label="${wOpen ? "Replier" : "Déplier"} la semaine ${wi + 1}">${ICON.next}</button><button class="tl" data-act="tree-toggle" data-id="${wk}" aria-expanded="${wOpen}">Semaine ${wi + 1}</button></div>${sess}</li>`;
+      }).join("")}</ul>`;
+      const isCurM = r === "parcours" && state.ui.monthId === m.id;
+      return `<li><div class="tree-row lvl1 ${isCurM ? "cur" : ""}"><button class="tw" data-act="tree-toggle" data-id="${m.id}" aria-expanded="${mOpen}" aria-label="${mOpen ? "Replier" : "Déplier"} le mois ${mi + 1}">${ICON.next}</button><a href="#parcours" class="tl" data-act="pick-month" data-id="${m.id}">${mi + 1}. ${esc(m.title)}</a><span class="tc num" aria-label="${st.done} séances faites sur ${st.total}">${st.done}/${st.total}</span></div>${weeks}</li>`;
+    }).join("");
+  }
+
+  /* Fil d'Ariane de navigation en haut de chaque page. */
+  function crumbsHtml(r) {
+    const label = { aujourdhui: "Aujourd'hui", parcours: "Parcours", reviser: "Réviser", carnet: "Carnet", bibliotheque: "Bibliothèque", liens: "Liens", syntheses: "Synthèses", reglages: "Données et réglages", plus: "Plus" };
+    let parts = [];
+    if (r === "seance") {
+      const f = state.ui.sessionId && findSession(state.ui.sessionId);
+      parts = f ? [["Parcours", "parcours"], [`${f.mi + 1}. ${f.m.title}`, "month:" + f.m.id], [`Semaine ${f.wi + 1}`, "month:" + f.m.id], [f.s.title]] : [["Séance"]];
+    } else if (r === "parcours") {
+      const m = state.months.find((x) => x.id === state.ui.monthId) || currentMonth();
+      parts = [["Parcours", "parcours"], [`${state.months.indexOf(m) + 1}. ${m.title}`]];
+    } else if (r === "carnet") parts = [["Carnet", "carnet"], [(state.ui.carnetTab || "notes") === "notions" ? "Notions" : "Notes"]];
+    else parts = [[label[r]]];
+    return parts.map(([t, to], i) => {
+      const last = i === parts.length - 1;
+      const inner = last || !to ? `<span ${last ? 'aria-current="page"' : ""}>${esc(t)}</span>`
+        : to.startsWith("month:") ? `<a href="#parcours" data-act="pick-month" data-id="${to.slice(6)}">${esc(t)}</a>` : `<a href="#${to}">${esc(t)}</a>`;
+      return `<li>${inner}</li>`;
+    }).join("");
   }
 
   let lastRoute = null;
@@ -2468,20 +2596,34 @@ window.SEED_PLAN = [
       console.error(e);
       body = `<div class="narrow empty"><strong>Cet écran n'a pas pu s'afficher.</strong>${esc(e.message)}<br><a href="#aujourdhui">Revenir à l'accueil</a></div>`;
     }
+    const treeEl = document.querySelector(".side-scroll");
+    const treeY = treeEl ? treeEl.scrollTop : 0;
+    const n = nextSession();
+    const np = n && prog(n.s.id);
     root.innerHTML = `
       <div class="app">
         <nav class="rail" aria-label="Navigation principale">
           <div class="brand">${LOGO}<span>Fil d'Ariane</span></div>
-          ${nav.rail}
-          <div class="spacer"></div>
-          <p class="motto"><b>Scripta manent.</b> Ce que l'on écrit demeure.</p>
-          <div class="foot">${storageOk ? "Données enregistrées dans ce navigateur" : "Stockage indisponible : exportez vos données"}</div>
+          <button class="side-search" data-act="open-search">${ICON.search}<span>Rechercher</span><kbd>${/Mac|iPhone|iPad/.test(navigator.platform) ? "⌘" : "Ctrl"} K</kbd></button>
+          ${n ? `<a class="side-today" href="#seance" data-act="open-session" data-id="${n.s.id}">${ICON.play}<span><small>${np && np.status === "started" ? "Reprendre la séance" : "Séance du jour"}</small><b>${esc(n.s.title)}</b></span></a>` : ""}
+          <div class="side-nav">${nav.rail}</div>
+          <div class="side-scroll">
+            <div class="side-label">Parcours</div>
+            <ul class="tree">${treeHtml(r)}</ul>
+          </div>
+          <div class="foot">${storageOk ? "Enregistré dans ce navigateur" : "Stockage indisponible : exportez vos données"}</div>
         </nav>
-        <main id="main" tabindex="-1">${body}</main>
+        <main id="main" tabindex="-1">
+          <div class="topbar"><nav aria-label="Fil d'Ariane"><ol class="crumbs">${crumbsHtml(r)}</ol></nav>
+            <button class="icon-btn topbar-search" data-act="open-search" aria-label="Rechercher">${ICON.search}</button></div>
+          ${body}
+        </main>
         <nav class="tabbar" aria-label="Navigation">${nav.tabbar}</nav>
       </div>
       <dialog id="dlg" aria-labelledby="dlg-title"></dialog>
       <div id="toast-zone" aria-live="polite"></div>`;
+    const treeEl2 = document.querySelector(".side-scroll");
+    if (treeEl2) treeEl2.scrollTop = treeY;
     if (r !== lastRoute) { window.scrollTo(0, 0); lastRoute = r; }
     afterRender(r);
   }
@@ -2505,18 +2647,75 @@ window.SEED_PLAN = [
   let dlgHandlers = {};
   function openDialog(html, handlers) {
     const d = document.getElementById("dlg");
+    d.classList.remove("dlg-search");
     d.innerHTML = `<div class="dialog-body">${html}</div>`;
     dlgHandlers = handlers || {};
     if (!d.open) { try { d.showModal(); } catch (e) { d.setAttribute("open", ""); } }
     const f = d.querySelector("[autofocus], input, textarea, select, button.primary");
     if (f) f.focus();
   }
-  function closeDialog() { const d = document.getElementById("dlg"); if (d && d.open) d.close(); dlgHandlers = {}; }
+  function closeDialog() { const d = document.getElementById("dlg"); if (d) { if (d.open) d.close(); d.classList.remove("dlg-search"); } dlgHandlers = {}; }
   function confirmDialog(title, text, yesLabel, onYes, danger) {
     openDialog(`<h2 id="dlg-title">${esc(title)}</h2><p>${esc(text)}</p>
       <div class="row end"><button class="btn ghost" data-act="dlg-close">Annuler</button>
       <button class="btn ${danger ? "danger solid" : "primary"}" data-act="dlg-yes">${esc(yesLabel)}</button></div>`, { yes: onYes });
   }
+
+  /* =========================================================
+     Recherche rapide (Ctrl K) : séances, mois, notions, notes, livres, pages
+     ========================================================= */
+  let qsItems = [], qsActive = 0;
+  function searchEntries() {
+    const out = [];
+    [["aujourdhui", "Aujourd'hui"], ["parcours", "Parcours"], ["reviser", "Réviser"], ["carnet", "Carnet"], ["bibliotheque", "Bibliothèque"], ["liens", "Liens"], ["syntheses", "Synthèses"], ["reglages", "Données et réglages"]]
+      .forEach(([id, t]) => out.push({ kind: "Page", t, text: t, go: () => go(id) }));
+    state.months.forEach((m, mi) => out.push({ kind: "Mois", t: `${mi + 1}. ${m.title}`, sub: m.period || "", text: m.title + " " + (m.question || ""), go: () => { state.ui.monthId = m.id; save(); go("parcours"); } }));
+    flat().forEach(({ s, m, mi, wi }) => {
+      const p = prog(s.id);
+      out.push({ kind: "Séance", t: s.title, sub: `${mi + 1}. ${m.title} · semaine ${wi + 1}${p ? (p.status === "done" ? " · faite" : " · commencée") : ""}`, text: s.title + " " + (s.hook || "") + " " + (s.notions || []).map((x) => x.term).join(" "), go: () => actions["open-session"]({ dataset: { id: s.id } }) });
+    });
+    state.notions.forEach((x) => out.push({ kind: "Notion", t: x.term, sub: x.def || "", text: x.term + " " + (x.def || ""), go: () => notionDialog(x) }));
+    state.notes.forEach((x) => out.push({ kind: "Note", t: x.title || "Sans titre", sub: (x.body || "").slice(0, 90), text: (x.title || "") + " " + (x.body || ""), go: () => noteDialog(x) }));
+    catalog().forEach((b) => out.push({ kind: "Livre", t: b.t, sub: b.a || "", text: b.t + " " + (b.a || ""), go: () => ficheDialog(b.key) }));
+    return out;
+  }
+  function searchResults(q) {
+    const terms = norm(q).split(/\s+/).filter(Boolean);
+    const all = searchEntries();
+    if (!terms.length) {
+      const n = nextSession();
+      return all.filter((e) => e.kind === "Page" || (n && e.kind === "Séance" && e.t === n.s.title)).sort((a, b) => (a.kind === "Séance" ? -1 : 0) - (b.kind === "Séance" ? -1 : 0));
+    }
+    return all.map((e) => {
+      const t = norm(e.t), x = norm(e.text);
+      if (!terms.every((w) => x.includes(w) || t.includes(w))) return null;
+      const score = (t.startsWith(terms[0]) ? 4 : 0) + terms.filter((w) => t.includes(w)).length * 2 + (e.kind === "Séance" ? 1 : 0);
+      return { e, score };
+    }).filter(Boolean).sort((a, b) => b.score - a.score).slice(0, 40).map((x) => x.e);
+  }
+  function renderSearchResults(q) {
+    qsItems = searchResults(q); qsActive = 0;
+    const box = document.getElementById("qs-results"); if (!box) return;
+    box.innerHTML = qsItems.length ? qsItems.map((e, i) => `<li role="option" id="qs-${i}" aria-selected="${i === 0}"><button data-act="search-go" data-i="${i}" tabindex="-1"><span class="qs-kind">${e.kind}</span><span class="qs-t">${esc(e.t)}</span>${e.sub ? `<span class="qs-sub">${esc(e.sub)}</span>` : ""}</button></li>`).join("")
+      : `<li class="qs-empty">Aucun résultat.</li>`;
+    const inp = document.getElementById("qs-input"); if (inp) inp.setAttribute("aria-activedescendant", qsItems.length ? "qs-0" : "");
+  }
+  function moveSearch(d) {
+    if (!qsItems.length) return;
+    qsActive = (qsActive + d + qsItems.length) % qsItems.length;
+    document.querySelectorAll("#qs-results [role=option]").forEach((li, i) => li.setAttribute("aria-selected", i === qsActive));
+    const li = document.getElementById("qs-" + qsActive); if (li) li.scrollIntoView({ block: "nearest" });
+    document.getElementById("qs-input").setAttribute("aria-activedescendant", "qs-" + qsActive);
+  }
+  function openSearch() {
+    openDialog(`<h2 id="dlg-title" class="sr-only">Rechercher</h2>
+      <div class="qs-field">${ICON.search}<input type="search" id="qs-input" data-input="qsearch" placeholder="Rechercher une séance, une notion, une note, un livre…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="qs-results" aria-autocomplete="list" autofocus></div>
+      <ul class="qs-results" id="qs-results" role="listbox" aria-label="Résultats"></ul>
+      <p class="qs-help"><span class="kbd">↑</span> <span class="kbd">↓</span> pour choisir, <span class="kbd">Entrée</span> pour ouvrir, <span class="kbd">Échap</span> pour fermer</p>`);
+    document.getElementById("dlg").classList.add("dlg-search");
+    renderSearchResults("");
+  }
+  function runSearch(i) { const e = qsItems[i]; if (!e) return; closeDialog(); e.go(); }
 
   /* =========================================================
      VUE : Aujourd'hui
@@ -2542,60 +2741,36 @@ window.SEED_PLAN = [
     if (n) {
       const p = prog(n.s.id);
       const started = p && p.status === "started";
-      hero = `<section class="hero-session" aria-labelledby="hero-t" data-numeral="${roman(n.mi + 1)}">
-        ${started ? `<div class="resume-note">Reprise · étape ${p.step + 1} sur 4, ${STEP_NAMES[p.step].toLowerCase()}</div>` : ""}
-        <div class="where"><b>Mois ${roman(n.mi + 1)}</b>${esc(n.m.title)} · semaine ${n.wi + 1}, séance ${n.si + 1}</div>
+      hero = `<section class="today-session" aria-labelledby="hero-t">
+        <div class="where">${started ? `<span class="resume-note">Reprise à l'étape ${p.step + 1} sur 4 : ${STEP_NAMES[p.step].toLowerCase()}</span>` : `<span>Séance du jour</span>`}<span>${n.mi + 1}. ${esc(n.m.title)} · semaine ${n.wi + 1}, séance ${n.si + 1}</span></div>
         <h2 id="hero-t">${esc(n.s.title)}</h2>
         <p class="hook">${esc(n.s.hook)}</p>
         <div class="row">
           <button class="btn primary lg" data-act="open-session" data-id="${n.s.id}">${ICON.play}${started ? "Reprendre la séance" : "Commencer la séance"}</button>
           <span class="tag ${n.s.kind}">${KIND_LABEL[n.s.kind]}</span>
         </div>
-        <ul class="plan" aria-label="Déroulé conseillé">
-          <li><b>5 min</b> révisions${due ? ` (${due})` : ""}</li><li><b>15 min</b> ${n.s.kind === "debat" ? "positions" : "lecture"}</li><li><b>5 min</b> ${n.s.kind === "debat" ? "votre argument" : "rappel actif"}</li>
-        </ul>
+        <p class="plan">${n.s.kind === "debat" ? "5 min de révisions, 15 min pour lire les positions, 5 min pour écrire la vôtre." : `5 min de révisions${due ? ` (${due})` : ""}, 15 min de lecture, 5 min de rappel actif.`}</p>
       </section>`;
     } else {
-      hero = `<section class="hero-session"><h2>Parcours terminé</h2><p class="hook">Toutes les séances sont faites. Vous pouvez ajouter un mois dans le Parcours, ou relire vos synthèses.</p><a class="btn primary" href="#parcours">Ouvrir le parcours</a></section>`;
+      hero = `<section class="today-session"><h2>Parcours terminé</h2><p class="hook">Toutes les séances sont faites. Vous pouvez ajouter un mois dans le Parcours, ou relire vos synthèses.</p><a class="btn primary" href="#parcours">Ouvrir le parcours</a></section>`;
     }
 
     const backupDays = state.lastBackup ? daysBetween(state.lastBackup.slice(0, 10), t) : null;
     const needBackup = totalDone >= 3 && (backupDays === null || backupDays >= 14);
     const welcome = totalDone === 0 && !Object.keys(state.progress).length;
 
-    return `<div class="wrap">
-      <header class="page-head"><div><div class="eyebrow">${esc(fmtDate(t, { weekday: "long", day: "numeric", month: "long" }))}</div><h1>${greet}. <em>Au travail.</em></h1></div></header>
+    return `<div class="page">
+      <header class="page-head"><div><div class="eyebrow">${esc(fmtDate(t, { weekday: "long", day: "numeric", month: "long" }))}</div><h1>${greet}</h1></div></header>
       ${needBackup ? `<div class="banner"><span>${backupDays === null ? "Vous n'avez encore jamais sauvegardé vos données." : `Dernière sauvegarde il y a ${backupDays} jours.`} Elles ne vivent que dans ce navigateur.</span><a class="btn sm" href="#reglages">Sauvegarder</a></div>` : ""}
-      ${welcome ? `<div class="banner" style="background:var(--lapis-soft)"><span>Chaque séance dure environ 25 minutes : révisions, lecture, rappel actif, bilan. Vous pouvez la quitter à tout moment, elle reprendra au même endroit.</span></div>` : ""}
-      <div class="today">
-        <div class="today-main">${hero}
-          <figure class="quote"><span class="eyebrow label">Citation du jour</span><p>${esc(q[0])}</p><footer><b>${esc(q[1])}</b> · ${esc(q[2])}</footer></figure>
-        </div>
-        <div class="side-stack">
-          <section class="panel" aria-labelledby="rev-t">
-            <div class="row between"><h3 id="rev-t">Révisions</h3><span class="muted small num">${plural(state.cards.length, "fiche", "fiches")}</span></div>
-            <p class="small" style="margin:8px 0 12px;color:var(--ink-2)">${due ? `${plural(due, "fiche attend", "fiches attendent")} aujourd'hui.` : state.cards.length ? "Rien à revoir aujourd'hui." : "Vos fiches apparaîtront après votre première séance."}</p>
-            ${due ? `<a class="btn sm" href="#reviser">Réviser maintenant</a>` : ""}
-          </section>
-          <section class="panel" aria-labelledby="week-t">
-            <div class="row between"><h3 id="week-t">Cette semaine</h3><span class="muted small num">${plural(weekLogs.length, "séance", "séances")} · ${weekMin} min</span></div>
-            <div class="week-dots" role="list">${week.map((d, i) => `<div role="listitem" class="${sessionsOn(d).length ? "on" : ""} ${d === t ? "is-today" : ""}" aria-label="${fmtDate(d, { weekday: "long" })}${sessionsOn(d).length ? " : séance faite" : ""}"><span></span>${dayNames[i]}</div>`).join("")}</div>
-            <p class="small muted" style="margin:12px 0 0">Rythme visé : 5 séances par semaine. Un jour manqué ne casse rien.</p>
-          </section>
-          <section class="panel" aria-labelledby="lib-t">
-            <div class="row between"><h3 id="lib-t">En lecture</h3><a class="small" href="#bibliotheque">Bibliothèque</a></div>
-            ${reading.length ? `<ul class="reading-now">${reading.map((b) => `<li><em>${esc(b.t)}</em>${b.a ? `<br><span class="muted">${esc(b.a)}</span>` : ""}</li>`).join("")}</ul>`
-              : `<p class="small" style="margin:8px 0 0;color:var(--ink-2)">Aucun livre en cours. La bibliothèque propose des lectures pour chaque mois.</p>`}
-          </section>
-          <section class="panel" aria-labelledby="path-t">
-            <div class="row between"><h3 id="path-t">Parcours</h3><a class="small" href="#parcours">Voir</a></div>
-            <p class="small" style="margin:8px 0 6px;color:var(--ink-2)">Mois en cours : <b>${esc(m.title)}</b>, ${ms.done} sur ${ms.total} séances.</p>
-            <div class="progress" role="progressbar" aria-valuenow="${Math.round(ms.pct * 100)}" aria-valuemin="0" aria-valuemax="100" aria-label="Progression du mois"><span style="width:${ms.pct * 100}%"></span></div>
-            <div class="month-strip">${state.months.map((mm) => { const st = monthStats(mm); return `<a href="#parcours" data-act="pick-month" data-id="${mm.id}" class="${mm.id === m.id ? "current" : ""}" title="${esc(mm.title)} : ${st.done}/${st.total}" aria-label="${esc(mm.title)}, ${st.done} séances sur ${st.total}"><i style="height:${st.pct * 100}%"></i></a>`; }).join("")}</div>
-            <div class="month-strip-labels" aria-hidden="true">${state.months.map((_, i) => `<span>${roman(i + 1)}</span>`).join("")}</div>
-          </section>
-        </div>
-      </div>
+      ${welcome ? `<div class="callout">Une séance dure environ 25 minutes : révisions, lecture, rappel actif, bilan. Vous pouvez la quitter à tout moment, elle reprendra au même endroit. <span class="muted">Astuce : <span class="kbd">Ctrl K</span> ouvre la recherche partout.</span></div>` : ""}
+      ${hero}
+      <dl class="props" aria-label="Où j'en suis">
+        <div><dt>${ICON.review}Révisions</dt><dd>${due ? `<a href="#reviser">${plural(due, "fiche à revoir", "fiches à revoir")}</a>` : state.cards.length ? `Rien à revoir aujourd'hui <span class="muted">· ${plural(state.cards.length, "fiche", "fiches")} en tout</span>` : `<span class="muted">Vos fiches apparaîtront après votre première séance.</span>`}</dd></div>
+        <div><dt>${ICON.today}Cette semaine</dt><dd><span class="week-dots" role="list">${week.map((d, i) => `<span role="listitem" class="${sessionsOn(d).length ? "on" : ""} ${d === t ? "is-today" : ""}" title="${fmtDate(d, { weekday: "long" })}" aria-label="${fmtDate(d, { weekday: "long" })}${sessionsOn(d).length ? " : séance faite" : ""}">${dayNames[i]}</span>`).join("")}</span><span class="muted num">${plural(weekLogs.length, "séance", "séances")} sur 5 · ${weekMin} min</span></dd></div>
+        <div><dt>${ICON.path}Parcours</dt><dd><a href="#parcours" data-act="pick-month" data-id="${m.id}">${state.months.indexOf(m) + 1}. ${esc(m.title)}</a><span class="muted num">${ms.done} sur ${ms.total}</span><span class="progress" role="progressbar" aria-valuenow="${Math.round(ms.pct * 100)}" aria-valuemin="0" aria-valuemax="100" aria-label="Progression du mois"><span style="width:${ms.pct * 100}%"></span></span></dd></div>
+        <div><dt>${ICON.book}En lecture</dt><dd>${reading.length ? reading.map((b) => `<button class="linklike" data-act="open-fiche" data-key="${esc(b.key)}">${esc(b.t)}</button>`).join('<span class="muted">·</span>') : `<a href="#bibliotheque">Choisir un livre dans la bibliothèque</a>`}</dd></div>
+      </dl>
+      <figure class="quote"><blockquote>${esc(q[0])}</blockquote><figcaption>${esc(q[1])}, <cite>${esc(q[2])}</cite></figcaption></figure>
     </div>`;
   }
 
@@ -2613,7 +2788,7 @@ window.SEED_PLAN = [
       const st = monthStats(mm);
       const cls = st.total && st.done === st.total ? "done" : mm.id === cur.id ? "current" : "";
       return `<li><button class="month-btn ${cls}" data-act="pick-month" data-id="${mm.id}" ${mm.id === m.id ? 'aria-current="true"' : ""}>
-        <span class="n">${roman(i + 1)}</span><span class="t">${esc(mm.title)}</span><span class="s">${st.done}/${st.total} · ${esc(mm.period || "")}</span></button></li>`;
+        <span class="n">${String(i + 1)}</span><span class="t">${esc(mm.title)}</span><span class="s">${st.done}/${st.total} · ${esc(mm.period || "")}</span></button></li>`;
     }).join("");
 
     const weeks = m.weeks.map((w, wi) => {
@@ -2648,7 +2823,7 @@ window.SEED_PLAN = [
     const st = monthStats(m);
     const monthSources = m.sources && m.sources.length ? `<details class="panel" style="margin-bottom:24px"><summary style="cursor:pointer;font-weight:700">Ressources conseillées pour ce mois (${m.sources.length})</summary><ul class="src-list" style="margin-top:14px">${m.sources.map(srcItem).join("")}</ul></details>` : "";
 
-    return `<div class="wrap">
+    return `<div class="wrap parcours-page">
       <header class="page-head"><div><h1>Parcours</h1><p>12 mois, un thème par mois, cinq séances par semaine. Tout est modifiable : titres, ordre, contenu.</p></div>
         <div class="row"><button class="btn ${editMode ? "primary" : ""}" data-act="toggle-edit" aria-pressed="${editMode}">${editMode ? ICON.check + "Terminer les modifications" : ICON.edit + "Modifier le parcours"}</button></div></header>
       <div class="parcours">
@@ -2656,7 +2831,7 @@ window.SEED_PLAN = [
           ${editMode ? `<button class="btn ghost sm" style="margin-top:10px" data-act="add-month">${ICON.plus}Ajouter un mois</button>` : ""}</div>
         <div>
           <div class="month-head">
-            <div class="row between"><span class="eyebrow rubric">Mois ${roman(mi + 1)} · ${esc(m.period || "")}</span><span class="small muted num">${st.done}/${st.total} séances</span></div>
+            <div class="row between"><span class="eyebrow">Mois ${mi + 1} · ${esc(m.period || "")}</span><span class="small muted num">${st.done}/${st.total} séances</span></div>
             <h2 style="font-size:1.9rem;margin-top:6px">${esc(m.title)}</h2>
             ${m.question ? `<p class="q">${esc(m.question)}</p>` : ""}
             ${m.intro ? `<p>${esc(m.intro)}</p>` : ""}
@@ -2712,7 +2887,7 @@ window.SEED_PLAN = [
     const sid = state.ui.sessionId;
     const f = sid && findSession(sid);
     if (!f) return `<div class="narrow empty"><strong>Aucune séance ouverte.</strong><a href="#aujourdhui">Revenir à l'accueil</a></div>`;
-    const { s, m, mi, wi, si } = f;
+    const { s } = f;
     const done = isDone(s.id);
     const p = done ? state.progress[s.id] : ensureProgress(s.id);
     const step = done ? (state.ui.relireStep == null ? 1 : state.ui.relireStep) : p.step;
@@ -2733,7 +2908,6 @@ window.SEED_PLAN = [
         </div>
         <ol class="steps" aria-label="Étapes de la séance">${steps}</ol>
       </div>
-      <div class="eyebrow rubric">Mois ${roman(mi + 1)} · ${esc(m.title)} · semaine ${wi + 1}, séance ${si + 1}</div>
       ${content}
       <div class="session-foot">
         ${step > 0 ? `<button class="btn ghost" data-act="goto-step" data-step="${step - 1}" aria-label="Étape précédente">${ICON.back}<span class="lbl">Étape précédente</span></button>` : `<span></span>`}
@@ -2822,7 +2996,7 @@ window.SEED_PLAN = [
     }
     return `<h1 style="margin:8px 0 6px">${esc(s.title)}</h1>
       <p class="lede">${esc(s.hook)}</p>
-      <div class="reading lettrine">${md(s.body)}</div>
+      <div class="reading">${md(s.body)}</div>
       ${s.kind === "synthese" ? `<div class="row" style="margin:6px 0 10px"><button class="btn" data-act="open-synth" data-id="${m.id}">${ICON.synth}Ouvrir la synthèse du mois</button>${(state.quizzes[m.id] || []).length ? `<button class="btn" data-act="start-quiz" data-id="${m.id}">Faire le quiz du mois</button>` : ""}</div>` : ""}
       ${notionsBlock(s, f)}
       ${s.perspective ? `<div class="aside-block"><h3>Mise en perspective</h3><div class="perspective">${md(s.perspective)}</div></div>` : ""}
@@ -2960,7 +3134,7 @@ window.SEED_PLAN = [
     const rows = state.months.map((m, i) => {
       const qs = state.quizzes[m.id] || [];
       const last = state.quizLog.filter((l) => l.mid === m.id).slice(-1)[0];
-      return `<li class="item"><div class="row between"><div><div class="t">Mois ${roman(i + 1)} · ${esc(m.title)}</div>
+      return `<li class="item"><div class="row between"><div><div class="t">Mois ${String(i + 1)} · ${esc(m.title)}</div>
         <div class="m">${plural(qs.length, "question", "questions")}${last ? ` · dernier essai : ${last.score}/${last.total} le ${fmtDate(last.date, { day: "numeric", month: "short" })}` : ""}</div></div>
         <div class="row">${qs.length ? `<button class="btn sm primary" data-act="start-quiz" data-id="${m.id}">Lancer</button>` : ""}<button class="btn sm" data-act="add-quiz-q" data-id="${m.id}">${ICON.plus}Ajouter une question</button></div></div></li>`;
     }).join("");
@@ -3028,36 +3202,45 @@ window.SEED_PLAN = [
       if (f === "mine" ? !b.mine : f && st !== f) return false;
       return !qText || norm(b.t + " " + (b.a || "")).includes(norm(qText));
     });
-    const shelves = state.months.map((m, i) => ({ m, i, list: visible.filter((b) => b.mid === m.id) })).filter((x) => x.list.length);
-    const orphans = visible.filter((b) => !state.months.some((m) => m.id === b.mid));
+    const monthF = state.ui.libMonth || "";
+    const rows = visible.filter((b) => !monthF || b.mid === monthF);
+    const mIndex = (mid) => state.months.findIndex((m) => m.id === mid);
+    rows.sort((x, y) => (mIndex(x.mid) < 0 ? 99 : mIndex(x.mid)) - (mIndex(y.mid) < 0 ? 99 : mIndex(y.mid)));
     const row = (b) => {
       const r = state.reading[b.key] || {};
-      return `<li class="book ${r.status ? "st-" + r.status : ""}">
-        <div class="bt">${b.url ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.t)}</a>` : esc(b.t)}</div>
-        ${b.a ? `<div class="ba">${esc(b.a)}</div>` : ""}
-        ${b.note ? `<div class="bn">${esc(b.note)}</div>` : ""}
-        <div class="acts">
-          <label class="sr-only" for="rs-${esc(b.key)}">Statut de lecture</label>
-          <select id="rs-${esc(b.key)}" data-input="read-status" data-key="${esc(b.key)}"><option value="">Pas dans ma liste</option>${Object.entries(READ_STATUS).map(([k, l]) => `<option value="${k}" ${r.status === k ? "selected" : ""}>${l}</option>`).join("")}</select>
-          <button class="btn sm ${hasFiche(r) ? "fiche-on" : ""}" data-act="open-fiche" data-key="${esc(b.key)}">${hasFiche(r) ? ICON.check : ICON.edit}Fiche de lecture</button>
-          ${b.mine ? `<button class="icon-btn" data-act="edit-source" data-id="${esc(b.key)}" aria-label="Modifier ${esc(b.t)}">${ICON.edit}</button>` : ""}
-        </div></li>`;
+      const mi = mIndex(b.mid);
+      return `<tr>
+        <td class="db-title"><button class="linklike" data-act="open-fiche" data-key="${esc(b.key)}">${esc(b.t)}</button>${b.note ? `<div class="db-sub">${esc(b.note)}</div>` : ""}</td>
+        <td data-label="Auteur">${esc(b.a || "")}</td>
+        <td data-label="Mois" class="num">${mi >= 0 ? `${mi + 1}. ${esc(state.months[mi].title)}` : "Hors parcours"}</td>
+        <td data-label="Statut"><label class="sr-only" for="rs-${esc(b.key)}">Statut de lecture de ${esc(b.t)}</label><select class="cell-select st-${r.status || "none"}" id="rs-${esc(b.key)}" data-input="read-status" data-key="${esc(b.key)}"><option value="">Non choisi</option>${Object.entries(READ_STATUS).map(([k, l]) => `<option value="${k}" ${r.status === k ? "selected" : ""}>${l}</option>`).join("")}</select></td>
+        <td data-label="Fiche">${hasFiche(r) ? `<button class="linklike" data-act="open-fiche" data-key="${esc(b.key)}">${ICON.check}Rédigée</button>` : `<button class="btn ghost sm" data-act="open-fiche" data-key="${esc(b.key)}">Rédiger</button>`}</td>
+      </tr>`;
     };
-    const chips = [["", "Tous", books.length], ["lire", "À lire", counts.lire], ["cours", "En cours", counts.cours], ["lu", "Lus", counts.lu], ["mine", "Mes ajouts", state.sources.length]];
-    return `<div class="wrap" style="max-width:900px"><header class="page-head"><div><span class="eyebrow rubric">Douze rayons, un par mois</span><h1>Bibliothèque</h1>
-        <p>Les ouvrages et ressources du parcours, rangés par thème. Choisissez vos lectures, suivez-les, et gardez de chacune une fiche : l'idée centrale, ce que vous retenez, une citation.</p></div>
+    const views = [["", "Tous", books.length], ["lire", "À lire", counts.lire], ["cours", "En cours", counts.cours], ["lu", "Lus", counts.lu], ["mine", "Mes ajouts", state.sources.length]];
+    return `<div class="wrap"><header class="page-head"><div><h1>Bibliothèque</h1>
+        <p>Les ouvrages du parcours et les vôtres. Choisissez un statut, puis ouvrez un titre pour rédiger sa fiche de lecture.</p></div>
         <button class="btn primary" data-act="new-source">${ICON.plus}Ajouter un livre</button></header>
-      <div class="toolbar"><label class="sr-only" for="lib-search">Rechercher un livre</label><input type="search" id="lib-search" data-input="lib-search" placeholder="Rechercher un titre ou un auteur" value="${esc(qText)}"></div>
-      <div class="chips" style="margin-bottom:28px">${chips.map(([k, l, n]) => `<button class="chip" aria-pressed="${f === k}" data-act="lib-filter" data-id="${k}">${l} <span class="num">${n}</span></button>`).join("")}</div>
-      ${shelves.map(({ m, i, list }) => `<section class="shelf" aria-labelledby="sh-${m.id}"><div class="shelf-head"><span class="num-roman">${roman(i + 1)}</span><h2 id="sh-${m.id}">${esc(m.title)}</h2><span class="muted">${plural(list.length, "ouvrage", "ouvrages")}</span></div><ul class="books">${list.map(row).join("")}</ul></section>`).join("")}
-      ${orphans.length ? `<section class="shelf"><div class="shelf-head"><span class="num-roman">·</span><h2>Hors parcours</h2></div><ul class="books">${orphans.map(row).join("")}</ul></section>` : ""}
-      ${!shelves.length && !orphans.length ? `<div class="empty"><strong>${f || qText ? "Aucun livre ne correspond." : "La bibliothèque est vide."}</strong>${f === "lire" ? "Choisissez « À lire » à côté d'un ouvrage pour l'ajouter à votre liste." : ""}</div>` : ""}
+      <div class="db-views" role="group" aria-label="Vues">${views.map(([k, l, n]) => `<button aria-pressed="${f === k}" data-act="lib-filter" data-id="${k}">${l} <span class="muted num">${n}</span></button>`).join("")}</div>
+      <div class="toolbar"><label class="sr-only" for="lib-search">Rechercher un livre</label><input type="search" id="lib-search" data-input="lib-search" placeholder="Rechercher un titre ou un auteur" value="${esc(qText)}">
+        <label class="sr-only" for="lib-month">Mois</label><select id="lib-month" data-input="lib-month" style="width:auto"><option value="">Tous les mois</option>${state.months.map((m, i) => `<option value="${m.id}" ${monthF === m.id ? "selected" : ""}>${i + 1}. ${esc(m.title)}</option>`).join("")}</select></div>
+      ${rows.length ? `<div class="db-wrap"><table class="db"><thead><tr><th scope="col">Titre</th><th scope="col">Auteur</th><th scope="col">Mois</th><th scope="col">Statut</th><th scope="col">Fiche</th></tr></thead><tbody>${rows.map(row).join("")}</tbody></table></div>
+        <p class="small muted" style="margin-top:10px">${plural(rows.length, "ouvrage", "ouvrages")}</p>`
+        : `<div class="empty"><strong>${f || qText || monthF ? "Aucun livre ne correspond." : "La bibliothèque est vide."}</strong>${f === "lire" ? "Choisissez « À lire » dans la colonne Statut pour ajouter un livre à votre liste." : ""}</div>`}
     </div>`;
   }
   function ficheDialog(key) {
     const b = catalog().find((x) => x.key === key); if (!b) return;
     const r = state.reading[key] || {};
-    openDialog(`<span class="eyebrow rubric">Fiche de lecture</span><h2 id="dlg-title" style="font-style:italic;margin-top:-6px">${esc(b.t)}</h2>${b.a ? `<p class="muted" style="margin:-8px 0 0">${esc(b.a)}</p>` : ""}
+    const mi = state.months.findIndex((m) => m.id === b.mid);
+    openDialog(`<span class="eyebrow">Fiche de lecture</span><h2 id="dlg-title" style="margin-top:-6px">${esc(b.t)}</h2>
+      <dl class="props compact">
+        ${b.a ? `<div><dt>Auteur</dt><dd>${esc(b.a)}</dd></div>` : ""}
+        <div><dt>Mois</dt><dd>${mi >= 0 ? `${mi + 1}. ${esc(state.months[mi].title)}` : "Hors parcours"}</dd></div>
+        ${b.note ? `<div><dt>Présentation</dt><dd>${esc(b.note)}</dd></div>` : ""}
+        ${b.url ? `<div><dt>Lien</dt><dd><a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.url.replace(/^https?:\/\//, "").slice(0, 60))}</a></dd></div>` : ""}
+      </dl>
+      ${b.mine ? `<div><button class="btn ghost sm" data-act="edit-source" data-id="${esc(b.key)}">${ICON.edit}Modifier ces informations</button></div>` : ""}
       <label class="field" for="fi-central">L'idée centrale, en une phrase<input type="text" id="fi-central" value="${esc(r.central || "")}" autofocus></label>
       <label class="field" for="fi-keep">Ce que je retiens <span class="hint">Trois idées, avec vos mots. Markdown possible.</span><textarea id="fi-keep" class="writing" style="min-height:150px">${esc(r.keep || "")}</textarea></label>
       <label class="field" for="fi-quote">Une citation à garder<textarea id="fi-quote" style="min-height:70px">${esc(r.quote || "")}</textarea></label>
@@ -3227,6 +3410,7 @@ window.SEED_PLAN = [
   function viewPlus() {
     return `<div class="wrap narrow"><header class="page-head"><h1>Plus</h1></header>
       <ul class="list">
+        <li><button class="item clickable" data-act="open-search"><span class="t">Rechercher</span><span class="ex">Une séance, une notion, une note, un livre.</span></button></li>
         <li><a class="item clickable" href="#bibliotheque" style="text-decoration:none"><span class="t">Bibliothèque</span><span class="ex">Les livres du parcours, vos lectures et vos fiches de lecture.</span></a></li>
         <li><a class="item clickable" href="#liens" style="text-decoration:none"><span class="t">Liens</span><span class="ex">La carte des idées, événements, œuvres et disciplines.</span></a></li>
         <li><a class="item clickable" href="#syntheses" style="text-decoration:none"><span class="t">Synthèses</span><span class="ex">Une synthèse guidée par mois.</span></a></li>
@@ -3346,7 +3530,7 @@ window.SEED_PLAN = [
       <label class="field" for="so-t">Titre<input type="text" id="so-t" value="${esc(s ? s.t : "")}" autofocus></label>
       <div class="grid-2"><label class="field" for="so-a">Auteur<input type="text" id="so-a" value="${esc(s ? s.a : "")}"></label>
       <label class="field" for="so-url">Lien (facultatif)<input type="url" id="so-url" value="${esc(s ? s.url || "" : "")}" placeholder="https://"></label></div>
-      <label class="field" for="so-month">Rayon<select id="so-month">${state.months.map((m, i) => `<option value="${m.id}" ${(s ? s.mid : currentMonth().id) === m.id ? "selected" : ""}>${roman(i + 1)}. ${esc(m.title)}</option>`).join("")}</select></label>
+      <label class="field" for="so-month">Mois<select id="so-month">${state.months.map((m, i) => `<option value="${m.id}" ${(s ? s.mid : currentMonth().id) === m.id ? "selected" : ""}>${String(i + 1)}. ${esc(m.title)}</option>`).join("")}</select></label>
       <label class="field" for="so-note">Présentation<textarea id="so-note" placeholder="Éditeur, année, chapitres utiles…">${esc(s ? s.note || "" : "")}</textarea></label>
       <div class="row between">${s ? `<button class="btn danger" data-act="dlg-delete">${ICON.trash}Supprimer</button>` : "<span></span>"}<span class="row"><button class="btn ghost" data-act="dlg-close">Annuler</button><button class="btn primary" data-act="dlg-save">Enregistrer</button></span></div>`, {
       save: () => {
@@ -3537,6 +3721,9 @@ window.SEED_PLAN = [
     "move-month": (el) => { moveIn(state.months, state.months.find((x) => x.id === el.dataset.id), Number(el.dataset.dir)); save(); refresh(); },
     "add-month": () => textDialog("Nouveau mois", [{ label: "Titre", value: "" }, { label: "Période", value: "" }, { label: "Question directrice", value: "" }, { label: "Présentation", value: "", long: true }], ([t, p, q, i]) => { const id = "m" + uid(); state.months.push({ id, title: t, period: p, question: q, intro: i, sources: [], synthesisPrompts: [], weeks: [{ id: "w" + uid(), title: "Semaine 1", question: "", sessions: [] }] }); state.ui.monthId = id; }),
     "delete-month": (el) => { const m = state.months.find((x) => x.id === el.dataset.id); if (state.months.length < 2) { toast("Le parcours doit garder au moins un mois."); return; } confirmDialog("Supprimer ce mois ?", `« ${m.title} » et toutes ses séances seront retirés du parcours. Vos notes et fiches sont conservées.`, "Supprimer", () => { state.months.splice(state.months.indexOf(m), 1); state.ui.monthId = state.months[0].id; save(); closeDialog(); refresh(); }, true); },
+    "tree-toggle": (el) => { state.ui.tree = state.ui.tree || {}; state.ui.tree[el.dataset.id] = el.getAttribute("aria-expanded") !== "true"; save(); refresh(); },
+    "open-search": () => openSearch(),
+    "search-go": (el) => runSearch(Number(el.dataset.i)),
     "lib-filter": (el) => { state.ui.libFilter = el.dataset.id; refresh(); },
     "open-fiche": (el) => ficheDialog(el.dataset.key),
     "revise-tab": (el) => { state.ui.reviseTab = el.dataset.id; freeQueue = null; refresh(); },
@@ -3592,10 +3779,17 @@ window.SEED_PLAN = [
     fn(el, ev);
   });
   document.addEventListener("keydown", (ev) => {
+    if ((ev.ctrlKey || ev.metaKey) && !ev.altKey && ev.key.toLowerCase() === "k") { ev.preventDefault(); openSearch(); return; }
+    if (ev.target.id === "qs-input") {
+      if (ev.key === "ArrowDown" || ev.key === "ArrowUp") { ev.preventDefault(); moveSearch(ev.key === "ArrowDown" ? 1 : -1); }
+      else if (ev.key === "Enter") { ev.preventDefault(); runSearch(qsActive); }
+      return;
+    }
     const g = ev.target.closest && ev.target.closest('svg [data-act="open-node"]');
     if (g && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); actions["open-node"](g); return; }
     if (/^(INPUT|TEXTAREA|SELECT)$/.test(ev.target.tagName) || ev.metaKey || ev.ctrlKey || ev.altKey) return;
     if (document.getElementById("dlg") && document.getElementById("dlg").open) return;
+    if (ev.key === "/") { ev.preventDefault(); openSearch(); return; }
     const r = route();
     const onReview = (r === "seance" && reviewQueue && (state.progress[state.ui.sessionId] || {}).step === 0) || (r === "reviser" && (state.ui.reviseTab || "fiches") === "fiches");
     if (!onReview) return;
@@ -3623,6 +3817,7 @@ window.SEED_PLAN = [
     else if (kind === "card-search") deferRefresh(() => { state.ui.cardSearch = el.value; });
     else if (kind === "node-search") deferRefresh(() => { state.ui.nodeSearch = el.value; });
     else if (kind === "lib-search") deferRefresh(() => { state.ui.libSearch = el.value; });
+    else if (kind === "qsearch") renderSearchResults(el.value);
   });
   document.addEventListener("change", (ev) => {
     const el = ev.target; const kind = el.dataset && el.dataset.input; if (!kind) return;
@@ -3632,6 +3827,7 @@ window.SEED_PLAN = [
       save(); applyPrefs(); toast("Préférence enregistrée.");
     } else if (kind === "autocards") { state.settings.autoCards = el.checked; save(); }
     else if (kind === "synth-month") { state.ui.synthMonth = el.value; save(); refresh(); }
+    else if (kind === "lib-month") { state.ui.libMonth = el.value; save(); refresh(); }
     else if (kind === "read-status") {
       const r = state.reading[el.dataset.key] = state.reading[el.dataset.key] || {};
       r.status = el.value || undefined; r.updated = new Date().toISOString(); save(); refresh();

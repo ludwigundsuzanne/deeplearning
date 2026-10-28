@@ -19,6 +19,12 @@ Aucun compte, aucun serveur, aucune API payante. Les données restent dans le na
 
 On peut quitter à tout moment : la séance reprend à la même étape.
 
+## Se repérer
+
+- **Barre latérale** : la séance du jour en un clic, puis le parcours en arborescence (mois, semaines, séances).
+- **Recherche** : `Ctrl K` (ou `/`) cherche dans les séances, mois, notions, notes et livres.
+- **Fil d'Ariane** en haut de page : où l'on est, et le chemin pour remonter.
+
 ## Bibliothèque
 
 Les ouvrages conseillés des 12 mois, rangés en rayons. Statut (à lire, en cours, lu) et fiche de lecture : idée centrale, ce que je retiens, une citation, des liens. L'idée centrale peut devenir une fiche de révision.
